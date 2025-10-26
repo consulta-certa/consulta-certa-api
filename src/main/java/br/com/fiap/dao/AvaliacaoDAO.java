@@ -1,5 +1,6 @@
 package br.com.fiap.dao;
 
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Avaliacao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class AvaliacaoDAO {
     private final Connection conn;
 
-    public AvaliacaoDAO(Connection conn) {
-        this.conn = conn;
+    public AvaliacaoDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<Avaliacao> findAllAvaliacao() {

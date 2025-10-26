@@ -9,8 +9,8 @@ import java.util.List;
 public class AcompanhanteService {
     private final AcompanhanteDAO dao;
 
-    public AcompanhanteService(AcompanhanteDAO dao) {
-        this.dao = dao;
+    public AcompanhanteService() {
+        this.dao = new AcompanhanteDAO();
     }
 
     public List<AcompanhanteResponseDTO> findAll() {

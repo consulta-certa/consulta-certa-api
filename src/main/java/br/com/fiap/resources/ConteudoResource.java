@@ -12,8 +12,8 @@ import jakarta.ws.rs.core.Response;
 public class ConteudoResource {
     private final ConsultaService service;
 
-    public ConteudoResource(ConsultaService service) {
-        this.service = service;
+    public ConteudoResource() {
+        this.service = new ConsultaService();
     }
 
     @GET

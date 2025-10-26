@@ -15,8 +15,8 @@ import jakarta.ws.rs.core.UriInfo;
 public class PacienteResource {
     private final PacienteService service;
 
-    public PacienteResource(PacienteService service) {
-        this.service = service;
+    public PacienteResource() {
+        this.service = new PacienteService();
     }
 
     @GET

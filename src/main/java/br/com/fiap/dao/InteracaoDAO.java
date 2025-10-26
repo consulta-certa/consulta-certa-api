@@ -1,5 +1,6 @@
 package br.com.fiap.dao;
 
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.InteracaoChatbot;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class InteracaoDAO {
     private final Connection conn;
 
-    public InteracaoDAO(Connection conn) {
-        this.conn = conn;
+    public InteracaoDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<InteracaoChatbot> findAllInteracao() {
@@ -23,8 +24,9 @@ public class InteracaoDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 InteracaoChatbot interacao = new InteracaoChatbot(
-                    rs.getString(2),
-                    rs.getTimestamp(3).toLocalDateTime()
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getTimestamp(4).toLocalDateTime()
                 );
                 interacao.setId(UUID.fromString(rs.getString(1)));
                 interacoes.add(interacao);
@@ -45,8 +47,9 @@ public class InteracaoDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 interacao = new InteracaoChatbot(
-                    rs.getString(2),
-                    rs.getTimestamp(3).toLocalDateTime()
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getTimestamp(4).toLocalDateTime()
                 );
                 interacao.setId(UUID.fromString(rs.getString(1)));
             }
@@ -62,7 +65,8 @@ public class InteracaoDAO {
         try {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_interacoes_chatbot VALUES (?, ?, ?, ?)");
             stmt.setString(1, interacao.getId().toString());
-            stmt.setString(2, interacao.getPergunta());
+            stmt.setInt(2, interacao.getIdConversa());
+            stmt.setString(3, interacao.getPergunta());
             stmt.setTimestamp(4, java.sql.Timestamp.valueOf(interacao.getDataPergunta()));
             stmt.execute();
             stmt.close();
@@ -74,10 +78,11 @@ public class InteracaoDAO {
 
     public void updateInteracao(InteracaoChatbot interacao) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_interacoes_chatbot SET pergunta = ?, data_pergunta = ? WHERE id = ?");
-            stmt.setString(1, interacao.getPergunta());
-            stmt.setTimestamp(2, java.sql.Timestamp.valueOf(interacao.getDataPergunta()));
-            stmt.setString(3, interacao.getId().toString());
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_interacoes_chatbot SET id_conversa = ?, pergunta = ?, data_pergunta = ? WHERE id = ?");
+            stmt.setInt(1, interacao.getIdConversa());
+            stmt.setString(2, interacao.getPergunta());
+            stmt.setTimestamp(3, java.sql.Timestamp.valueOf(interacao.getDataPergunta()));
+            stmt.setString(4, interacao.getId().toString());
             stmt.executeUpdate();
             stmt.close();
 

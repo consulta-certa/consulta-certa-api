@@ -1,5 +1,6 @@
 package br.com.fiap.dao;
 
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Consulta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class ConsultaDAO {
     private final Connection conn;
 
-    public ConsultaDAO(Connection conn) {
-        this.conn = conn;
+    public ConsultaDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<Consulta> findAllCosulta() {

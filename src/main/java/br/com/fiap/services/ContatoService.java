@@ -9,8 +9,8 @@ import java.util.List;
 public class ContatoService {
     private final ContatoDAO dao;
 
-    public ContatoService(ContatoDAO dao) {
-        this.dao = dao;
+    public ContatoService() {
+        this.dao = new ContatoDAO();
     }
 
     public List<ContatoResponseDTO> findAll() {

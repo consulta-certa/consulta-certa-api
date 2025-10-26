@@ -9,8 +9,8 @@ import java.util.List;
 public class LembreteService {
     private final LembreteDAO dao;
 
-    public LembreteService(LembreteDAO dao) {
-        this.dao = dao;
+    public LembreteService() {
+        this.dao = new LembreteDAO();
     }
 
     public List<LembreteResponseDTO> findAll() {

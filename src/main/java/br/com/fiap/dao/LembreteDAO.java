@@ -1,5 +1,6 @@
 package br.com.fiap.dao;
 
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Lembrete;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class LembreteDAO {
     private final Connection conn;
 
-    public LembreteDAO(Connection conn) {
-        this.conn = conn;
+    public LembreteDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<Lembrete> findAllLembrete() {

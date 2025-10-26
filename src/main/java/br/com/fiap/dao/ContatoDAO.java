@@ -1,5 +1,6 @@
 package br.com.fiap.dao;
 
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Contato;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class ContatoDAO {
     private final Connection conn;
 
-    public ContatoDAO(Connection conn) {
-        this.conn = conn;
+    public ContatoDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<Contato> findAllContato() {

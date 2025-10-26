@@ -14,8 +14,8 @@ import jakarta.ws.rs.core.*;
 public class InteracaoResource {
     private final InteracaoService service;
 
-    public InteracaoResource(InteracaoService service) {
-        this.service = service;
+    public InteracaoResource() {
+        this.service = new InteracaoService();
     }
 
     @POST

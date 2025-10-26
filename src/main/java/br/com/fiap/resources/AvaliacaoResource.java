@@ -14,8 +14,8 @@ import jakarta.ws.rs.core.*;
 public class AvaliacaoResource {
     private final AvaliacaoService service;
 
-    public AvaliacaoResource(AvaliacaoService service) {
-        this.service = service;
+    public AvaliacaoResource() {
+        this.service = new AvaliacaoService();
     }
 
     @POST

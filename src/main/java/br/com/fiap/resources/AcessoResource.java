@@ -14,8 +14,8 @@ import jakarta.ws.rs.core.*;
 public class AcessoResource {
     private final AcessoService service;
 
-    public AcessoResource(AcessoService service) {
-        this.service = service;
+    public AcessoResource() {
+        this.service = new AcessoService();
     }
 
     @POST

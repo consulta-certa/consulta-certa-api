@@ -8,8 +8,8 @@ import br.com.fiap.entities.Acesso;
 public class AcessoService {
     private final AcessoDAO dao;
 
-    public AcessoService(AcessoDAO dao) {
-        this.dao = dao;
+    public AcessoService() {
+        this.dao = new AcessoDAO();
     }
 
     public AcessoResponseDTO insert(AcessoRequestDTO request) {

@@ -9,8 +9,8 @@ import java.util.List;
 public class ConteudoService {
     private final ConteudoDAO dao;
 
-    public ConteudoService(ConteudoDAO dao) {
-        this.dao = dao;
+    public ConteudoService() {
+        this.dao = new ConteudoDAO();
     }
 
     public List<ConteudoResponseDTO> findAll() {

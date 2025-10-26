@@ -1,4 +1,5 @@
 package br.com.fiap.dao;
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Conteudo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +12,8 @@ import java.util.UUID;
 public class ConteudoDAO {
     private final Connection conn;
 
-    public ConteudoDAO(Connection conn) {
-        this.conn = conn;
+    public ConteudoDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<Conteudo> findAllConteudo() {

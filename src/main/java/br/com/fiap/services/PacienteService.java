@@ -10,8 +10,8 @@ import java.util.List;
 public class PacienteService {
     private final PacienteDAO dao;
 
-    public PacienteService(PacienteDAO dao) {
-        this.dao = dao;
+    public PacienteService() {
+        this.dao = new PacienteDAO();
     }
 
     public List<PacienteResponseDTO> findAll() {

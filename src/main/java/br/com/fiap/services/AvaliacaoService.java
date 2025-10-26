@@ -8,8 +8,8 @@ import br.com.fiap.entities.Avaliacao;
 public class AvaliacaoService {
     private final AvaliacaoDAO dao;
 
-    public AvaliacaoService(AvaliacaoDAO dao) {
-        this.dao = dao;
+    public AvaliacaoService() {
+        this.dao = new AvaliacaoDAO();
     }
 
     public AvaliacaoResponseDTO insert(AvaliacaoRequestDTO request) {

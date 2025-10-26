@@ -12,8 +12,8 @@ import jakarta.ws.rs.core.Response;
 public class ContatoResource {
     private final ContatoService service;
 
-    public ContatoResource(ContatoService service) {
-        this.service = service;
+    public ContatoResource() {
+        this.service = new ContatoService();
     }
 
     @GET

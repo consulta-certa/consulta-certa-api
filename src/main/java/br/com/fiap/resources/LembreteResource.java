@@ -12,8 +12,8 @@ import jakarta.ws.rs.core.Response;
 public class LembreteResource {
     private final LembreteService service;
 
-    public LembreteResource(LembreteService service) {
-        this.service = service;
+    public LembreteResource() {
+        this.service = new LembreteService();
     }
 
     @GET

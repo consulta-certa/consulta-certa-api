@@ -13,8 +13,8 @@ import jakarta.ws.rs.core.*;
 public class ConsultaResource {
     private final ConsultaService service;
 
-    public ConsultaResource(ConsultaService service) {
-        this.service = service;
+    public ConsultaResource() {
+        this.service = new ConsultaService();
     }
 
     @GET

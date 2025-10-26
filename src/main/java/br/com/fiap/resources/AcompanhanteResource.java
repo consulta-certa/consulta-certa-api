@@ -13,8 +13,8 @@ import jakarta.ws.rs.core.*;
 public class AcompanhanteResource {
     private final AcompanhanteService service;
 
-    public AcompanhanteResource(AcompanhanteService service) {
-        this.service = service;
+    public AcompanhanteResource() {
+        this.service = new AcompanhanteService();
     }
 
     @GET

@@ -8,12 +8,13 @@ import br.com.fiap.entities.InteracaoChatbot;
 public class InteracaoService {
     private final InteracaoDAO dao;
 
-    public InteracaoService(InteracaoDAO dao) {
-        this.dao = dao;
+    public InteracaoService() {
+        this.dao = new InteracaoDAO();
     }
 
     public InteracaoResponseDTO insert(InteracaoRequestDTO request) {
         InteracaoChatbot interacao = new InteracaoChatbot(
+            request.idConversa(),
             request.pergunta(),
             request.dataPergunta()
         );

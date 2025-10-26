@@ -1,5 +1,6 @@
 package br.com.fiap.dao;
 
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Paciente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class PacienteDAO {
     private final Connection conn;
 
-    public PacienteDAO (Connection conn) {
-        this.conn = conn;
+    public PacienteDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<Paciente> findAllPaciente() {

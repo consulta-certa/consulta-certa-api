@@ -1,5 +1,6 @@
 package br.com.fiap.dao;
 
+import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Acesso;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class AcessoDAO {
     private final Connection conn;
 
-    public AcessoDAO(Connection conn) {
-        this.conn = conn;
+    public AcessoDAO() {
+        this.conn =  new ConnectionFactory().getConnection();
     }
 
     public List<Acesso> findAllAcessos() {

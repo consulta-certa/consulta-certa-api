@@ -5,13 +5,15 @@ import java.util.UUID;
 
 public class InteracaoChatbot {
     private UUID id;
+    private int idConversa;
     private String pergunta;
     private LocalDateTime dataPergunta;
 
     public InteracaoChatbot() {}
 
-    public InteracaoChatbot(String pergunta, LocalDateTime dataPergunta) {
+    public InteracaoChatbot(int idConversa, String pergunta, LocalDateTime dataPergunta) {
         this.id = UUID.randomUUID();
+        this.idConversa = idConversa;
         this.pergunta = pergunta;
         this.dataPergunta = dataPergunta;
     }
@@ -22,6 +24,14 @@ public class InteracaoChatbot {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public int getIdConversa() {
+        return idConversa;
+    }
+
+    public void setIdConversa(int idConversa) {
+        this.idConversa = idConversa;
     }
 
     public String getPergunta() {

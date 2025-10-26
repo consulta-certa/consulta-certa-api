@@ -10,8 +10,8 @@ import java.util.List;
 public class ConsultaService {
     private final ConsultaDAO dao;
 
-    public ConsultaService(ConsultaDAO dao) {
-        this.dao = dao;
+    public ConsultaService() {
+        this.dao = new ConsultaDAO();
     }
 
     public List<ConsultaResponseDTO> findAll() {
