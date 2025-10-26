@@ -5,11 +5,7 @@ import br.com.fiap.dto.AcompanhanteResponseDTO;
 import br.com.fiap.services.AcompanhanteService;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
-import java.util.List;
+import jakarta.ws.rs.core.*;
 
 @Path("/acompanhantes")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,8 +20,7 @@ public class AcompanhanteResource {
     @GET
     public Response findAll() {
         try {
-            List<AcompanhanteResponseDTO> response = service.findAll();
-            return Response.ok(response).build();
+            return Response.ok(service.findAll()).build();
 
         } catch (Exception e) {
             return Response.serverError().build();
@@ -36,8 +31,7 @@ public class AcompanhanteResource {
     @Path("{id}")
     public Response findById(String id) {
         try {
-            AcompanhanteResponseDTO response = service.findById(id);
-            return Response.ok(response).build();
+            return Response.ok(service.findById(id)).build();
 
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -52,7 +46,9 @@ public class AcompanhanteResource {
     public Response insert(AcompanhanteRequestDTO request, @Context UriInfo uriInfo) {
         try {
             AcompanhanteResponseDTO response = service.insert(request);
-            return Response.created(uriInfo.getAbsolutePath()).entity(response).build();
+            UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+            builder.path(response.id().toString());
+            return Response.created(builder.build()).entity(response).build();
 
         } catch (Exception e) {
             return Response.serverError().build();
@@ -64,8 +60,7 @@ public class AcompanhanteResource {
     @Transactional
     public Response update(AcompanhanteRequestDTO request) {
         try {
-            AcompanhanteResponseDTO response = service.update(request);
-            return Response.ok(response).build();
+            return Response.ok(service.update(request)).build();
 
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();

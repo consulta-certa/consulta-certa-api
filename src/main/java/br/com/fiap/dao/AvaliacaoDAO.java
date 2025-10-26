@@ -91,7 +91,7 @@ public class AvaliacaoDAO {
         }
     }
 
-    public void deletar(String id) {
+    public void deleteAvaliacao(String id) {
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_avaliacoes WHERE id= ?");
             stmt.setString(1, id);

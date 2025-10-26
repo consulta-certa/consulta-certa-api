@@ -2,6 +2,7 @@ package br.com.fiap.services;
 
 import br.com.fiap.dao.AcessoDAO;
 import br.com.fiap.dto.AcessoRequestDTO;
+import br.com.fiap.dto.AcessoResponseDTO;
 import br.com.fiap.entities.Acesso;
 
 public class AcessoService {
@@ -11,7 +12,7 @@ public class AcessoService {
         this.dao = dao;
     }
 
-    public void insertAcessos(AcessoRequestDTO request) {
+    public AcessoResponseDTO insert(AcessoRequestDTO request) {
         Acesso acesso = new Acesso(
             request.funcionalidade(),
             request.quantidadeAcessos(),
@@ -19,7 +20,9 @@ public class AcessoService {
             request.dataAcesso(),
             request.idPaciente()
         );
-
         dao.insertAcessos(acesso);
+        return new AcessoResponseDTO(
+            acesso.getId()
+        );
     }
 }

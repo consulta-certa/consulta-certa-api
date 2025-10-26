@@ -94,7 +94,7 @@ public class ConsultaDAO {
         }
     }
 
-    public void deletar(String id) {
+    public void deleteConsulta(String id) {
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_consultas WHERE id = ?");
             stmt.setString(1, id);

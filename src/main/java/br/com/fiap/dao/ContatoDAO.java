@@ -89,7 +89,7 @@ public class ContatoDAO {
         }
     }
 
-    public void atualizar(Contato contato) {
+    public void updateContato(Contato contato) {
         try {
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_contatos SET nome = ?, telefone = ?, email = ?, numero = ?, rua = ?, bairro = ?, cidade = ?, cep = ? WHERE id_contato = ?");
             stmt.setString(1, contato.getNome());
@@ -109,7 +109,7 @@ public class ContatoDAO {
         }
     }
 
-    public void deletar(String id) {
+    public void deleteContato(String id) {
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_contatos WHERE id_contato = ?");
             stmt.setString(1, id);

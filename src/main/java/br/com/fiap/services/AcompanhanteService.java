@@ -63,9 +63,8 @@ public class AcompanhanteService {
     }
 
     public void delete(String id) {
-        AcompanhanteResponseDTO acompanhante = findById(id);
-        if (acompanhante == null) {
-            throw new RuntimeException("Usuário não encontrado");
+        if (findById(id) == null) {
+            throw new RuntimeException("Acompanhante não encontrado");
         }
 
         dao.deleteAcompanhante(id);
