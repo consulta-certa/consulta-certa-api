@@ -7,5 +7,5 @@ public record PacienteRequestDTO(
     String email,
     String senha,
     String telefone,
-    String acompanhante
+    String acompanhantes
 ) {}

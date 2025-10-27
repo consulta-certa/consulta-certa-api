@@ -8,18 +8,18 @@ public class Paciente {
     private String email;
     private String senha;
     private String telefone;
-    private String acompanhante;
+    private String acompanhantes;
 
     public Paciente() {
     }
 
-    public Paciente(String nome, String email, String senha, String telefone, String acompanhante) {
+    public Paciente(String nome, String email, String senha, String telefone, String acompanhantes) {
         this.id = UUID.randomUUID();
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
-        this.acompanhante = acompanhante;
+        this.acompanhantes = acompanhantes;
     }
 
     public UUID getId() {
@@ -62,11 +62,11 @@ public class Paciente {
         this.telefone = telefone;
     }
 
-    public String getAcompanhante() {
-        return acompanhante;
+    public String getAcompanhantes() {
+        return acompanhantes;
     }
 
-    public void setAcompanhante(String acompanhante) {
-        this.acompanhante = acompanhante;
+    public void setAcompanhantes(String acompanhantes) {
+        this.acompanhantes = acompanhantes;
     }
 }

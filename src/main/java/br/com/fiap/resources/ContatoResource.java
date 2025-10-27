@@ -7,7 +7,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/contatos")
+@Path("/contatos_hc")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContatoResource {
     private final ContatoService service;
