@@ -26,7 +26,7 @@ public class AcessoDAO {
                 Acesso acesso = new Acesso(
                     rs.getString(2),
                     rs.getInt(3),
-                    rs.getFloat(4),
+                    rs.getInt(4),
                     rs.getTimestamp(5).toLocalDateTime(),
                     UUID.fromString(rs.getString(6))
                 );
@@ -51,7 +51,7 @@ public class AcessoDAO {
                 acesso = new Acesso(
                     rs.getString(2),
                     rs.getInt(3),
-                    rs.getFloat(4),
+                    rs.getInt(4),
                     rs.getTimestamp(5).toLocalDateTime(),
                     UUID.fromString(rs.getString(6))
                 );
@@ -71,7 +71,7 @@ public class AcessoDAO {
             stmt.setString(1, acesso.getId().toString());
             stmt.setString(2, acesso.getFuncionalidade());
             stmt.setInt(3, acesso.getQuantidadeAcessos());
-            stmt.setFloat(4, acesso.getTempoPermanenciaSeg());
+            stmt.setInt(4, acesso.getTempoPermanenciaSeg());
             stmt.setTimestamp(5, java.sql.Timestamp.valueOf(acesso.getDataAcesso()));
             stmt.setString(6, acesso.getIdPaciente().toString());
             stmt.execute();
@@ -87,7 +87,7 @@ public class AcessoDAO {
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acessos_funcionalidade SET funcionalidade = ?, quantidade_acessos = ?, tempo_permanencia_seg = ?, data_acesso = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, acesso.getFuncionalidade());
             stmt.setInt(2, acesso.getQuantidadeAcessos());
-            stmt.setFloat(3, acesso.getTempoPermanenciaSeg());
+            stmt.setInt(3, acesso.getTempoPermanenciaSeg());
             stmt.setTimestamp(4, java.sql.Timestamp.valueOf(acesso.getDataAcesso()));
             stmt.setString(5, acesso.getIdPaciente().toString());
             stmt.setString(6, acesso.getId().toString());

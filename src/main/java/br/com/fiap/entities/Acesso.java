@@ -7,14 +7,14 @@ public class Acesso {
     private UUID id;
     private String funcionalidade;
     private int quantidadeAcessos;
-    private float tempoPermanenciaSeg;
+    private int tempoPermanenciaSeg;
     private LocalDateTime dataAcesso;
     private UUID idPaciente;
 
     public Acesso() {
     }
 
-    public Acesso(String funcionalidade, int quantidadeAcessos, float tempoPermanenciaSeg, LocalDateTime dataAcesso, UUID idPaciente) {
+    public Acesso(String funcionalidade, int quantidadeAcessos, int tempoPermanenciaSeg, LocalDateTime dataAcesso, UUID idPaciente) {
         this.id = UUID.randomUUID();
         this.funcionalidade = funcionalidade;
         this.quantidadeAcessos = quantidadeAcessos;
@@ -47,11 +47,11 @@ public class Acesso {
         this.quantidadeAcessos = quantidadeAcessos;
     }
 
-    public float getTempoPermanenciaSeg() {
+    public int getTempoPermanenciaSeg() {
         return tempoPermanenciaSeg;
     }
 
-    public void setTempoPermanenciaSeg(float tempoPermanenciaSeg) {
+    public void setTempoPermanenciaSeg(int tempoPermanenciaSeg) {
         this.tempoPermanenciaSeg = tempoPermanenciaSeg;
     }
 
