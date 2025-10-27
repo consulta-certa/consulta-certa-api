@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record AcessoRequestDTO(
     String funcionalidade,
-    float quantidadeAcessos,
+    int quantidadeAcessos,
     float tempoPermanenciaSeg,
     LocalDateTime dataAcesso,
     UUID idPaciente

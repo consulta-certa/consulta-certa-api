@@ -25,7 +25,7 @@ public class AcessoDAO {
             while (rs.next()) {
                 Acesso acesso = new Acesso(
                     rs.getString(2),
-                    rs.getFloat(3),
+                    rs.getInt(3),
                     rs.getFloat(4),
                     rs.getTimestamp(5).toLocalDateTime(),
                     UUID.fromString(rs.getString(6))
@@ -50,7 +50,7 @@ public class AcessoDAO {
             if (rs.next()) {
                 acesso = new Acesso(
                     rs.getString(2),
-                    rs.getFloat(3),
+                    rs.getInt(3),
                     rs.getFloat(4),
                     rs.getTimestamp(5).toLocalDateTime(),
                     UUID.fromString(rs.getString(6))
@@ -70,7 +70,7 @@ public class AcessoDAO {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_acessos_funcionalidade VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, acesso.getId().toString());
             stmt.setString(2, acesso.getFuncionalidade());
-            stmt.setFloat(3, acesso.getQuantidadeAcessos());
+            stmt.setInt(3, acesso.getQuantidadeAcessos());
             stmt.setFloat(4, acesso.getTempoPermanenciaSeg());
             stmt.setTimestamp(5, java.sql.Timestamp.valueOf(acesso.getDataAcesso()));
             stmt.setString(6, acesso.getIdPaciente().toString());
@@ -86,7 +86,7 @@ public class AcessoDAO {
         try {
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acessos_funcionalidade SET funcionalidade = ?, quantidade_acessos = ?, tempo_permanencia_seg = ?, data_acesso = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, acesso.getFuncionalidade());
-            stmt.setFloat(2, acesso.getQuantidadeAcessos());
+            stmt.setInt(2, acesso.getQuantidadeAcessos());
             stmt.setFloat(3, acesso.getTempoPermanenciaSeg());
             stmt.setTimestamp(4, java.sql.Timestamp.valueOf(acesso.getDataAcesso()));
             stmt.setString(5, acesso.getIdPaciente().toString());

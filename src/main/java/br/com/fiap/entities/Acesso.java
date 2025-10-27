@@ -6,7 +6,7 @@ import java.util.UUID;
 public class Acesso {
     private UUID id;
     private String funcionalidade;
-    private float quantidadeAcessos;
+    private int quantidadeAcessos;
     private float tempoPermanenciaSeg;
     private LocalDateTime dataAcesso;
     private UUID idPaciente;
@@ -14,7 +14,7 @@ public class Acesso {
     public Acesso() {
     }
 
-    public Acesso(String funcionalidade, float quantidadeAcessos, float tempoPermanenciaSeg, LocalDateTime dataAcesso, UUID idPaciente) {
+    public Acesso(String funcionalidade, int quantidadeAcessos, float tempoPermanenciaSeg, LocalDateTime dataAcesso, UUID idPaciente) {
         this.id = UUID.randomUUID();
         this.funcionalidade = funcionalidade;
         this.quantidadeAcessos = quantidadeAcessos;
@@ -39,11 +39,11 @@ public class Acesso {
         this.funcionalidade = funcionalidade;
     }
 
-    public float getQuantidadeAcessos() {
+    public int getQuantidadeAcessos() {
         return quantidadeAcessos;
     }
 
-    public void setQuantidadeAcessos(float quantidadeAcessos) {
+    public void setQuantidadeAcessos(int quantidadeAcessos) {
         this.quantidadeAcessos = quantidadeAcessos;
     }
 
