@@ -44,10 +44,10 @@ public class PacienteDAO {
     public Paciente findByIdPaciente(String id) {
         try {
             Paciente paciente = null;
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_pacientes");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_pacientes WHERE id =?");
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 paciente = new Paciente(
                     rs.getString(2),
                     rs.getString(3),
@@ -73,7 +73,7 @@ public class PacienteDAO {
             stmt.setString(3, paciente.getEmail());
             stmt.setString(4, paciente.getSenha());
             stmt.setString(5, paciente.getTelefone());
-            stmt.setString(6, paciente.getAcompanhante());
+            stmt.setString(6, paciente.getAcompanhantes());
             stmt.execute();
             stmt.close();
 
@@ -84,12 +84,12 @@ public class PacienteDAO {
 
     public void updatePaciente(Paciente paciente) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_pacientes SET nome = ?, email = ?, senha=?, telefone = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_pacientes SET nome = ?, email = ?, senha=?, telefone = ?, SET acompanhantes = ? WHERE id = ?");
             stmt.setString(1, paciente.getNome());
             stmt.setString(2, paciente.getEmail());
             stmt.setString(3, paciente.getSenha());
             stmt.setString(4, paciente.getTelefone());
-            stmt.setString(5, paciente.getAcompanhante());
+            stmt.setString(5, paciente.getAcompanhantes());
             stmt.setString(6, paciente.getId().toString());
             stmt.executeUpdate();
             stmt.close();
@@ -101,7 +101,7 @@ public class PacienteDAO {
 
     public void deletePaciente(String id) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_pacientes WHERE id_paciente = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_pacientes WHERE id = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();

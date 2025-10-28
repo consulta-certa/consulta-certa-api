@@ -57,9 +57,9 @@ public class PacienteResource {
     @PUT
     @Path("{id}")
     @Transactional
-    public Response update (PacienteRequestDTO request) {
+    public Response update (PacienteRequestDTO request, String id) {
         try {
-            return Response.ok(service.update(request)).build();
+            return Response.ok(service.update(request, id)).build();
 
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();

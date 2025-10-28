@@ -6,6 +6,7 @@ import br.com.fiap.dto.PacienteResponseDTO;
 import br.com.fiap.entities.Paciente;
 
 import java.util.List;
+import java.util.UUID;
 
 public class PacienteService {
     private final PacienteDAO dao;
@@ -28,7 +29,7 @@ public class PacienteService {
             request.email(),
             request.senha(),
             request.telefone(),
-            request.acompanhante()
+            request.acompanhantes()
         );
         dao.insertPaciente(paciente);
         return new PacienteResponseDTO(
@@ -37,18 +38,19 @@ public class PacienteService {
             paciente.getEmail(),
             paciente.getSenha(),
             paciente.getTelefone(),
-            paciente.getAcompanhante()
+            paciente.getAcompanhantes()
         );
     }
 
-    public PacienteResponseDTO update(PacienteRequestDTO request) {
+    public PacienteResponseDTO update(PacienteRequestDTO request, String id) {
         Paciente paciente = new Paciente(
             request.nome(),
             request.email(),
             request.senha(),
             request.telefone(),
-            request.acompanhante()
+            request.acompanhantes()
         );
+        paciente.setId(UUID.fromString(id));
         dao.updatePaciente(paciente);
         return new PacienteResponseDTO(
             paciente.getId(),
@@ -56,7 +58,7 @@ public class PacienteService {
             paciente.getEmail(),
             paciente.getSenha(),
             paciente.getTelefone(),
-            paciente.getAcompanhante()
+            paciente.getAcompanhantes()
         );
     }
 
@@ -74,7 +76,7 @@ public class PacienteService {
             paciente.getEmail(),
             paciente.getSenha(),
             paciente.getTelefone(),
-            paciente.getAcompanhante()
+            paciente.getAcompanhantes()
         );
     }
 }
