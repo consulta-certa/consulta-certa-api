@@ -58,9 +58,9 @@ public class ConsultaResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response update(ConsultaRequestDTO request, @Context UriInfo uriInfo) {
+    public Response update(ConsultaRequestDTO request, @PathParam("id") String id, @Context UriInfo uriInfo) {
         try {
-            return Response.ok(service.update(request)).build();
+            return Response.ok(service.update(request, id)).build();
 
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();

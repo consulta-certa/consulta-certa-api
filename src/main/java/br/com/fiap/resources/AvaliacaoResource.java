@@ -9,7 +9,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 
-@Path("/avalicoes")
+@Path("/avaliacoes")
 @Consumes(MediaType.APPLICATION_JSON)
 public class AvaliacaoResource {
     private final AvaliacaoService service;

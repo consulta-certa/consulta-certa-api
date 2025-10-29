@@ -6,6 +6,7 @@ import br.com.fiap.dto.ConsultaResponseDTO;
 import br.com.fiap.entities.Consulta;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ConsultaService {
     private final ConsultaDAO dao;
@@ -15,7 +16,7 @@ public class ConsultaService {
     }
 
     public List<ConsultaResponseDTO> findAll() {
-        return dao.findAllCosulta().stream().map(this::toResponse).toList();
+        return dao.findAllConsulta().stream().map(this::toResponse).toList();
     }
 
     public ConsultaResponseDTO findById(String id) {
@@ -40,13 +41,14 @@ public class ConsultaService {
         );
     }
 
-    public ConsultaResponseDTO update(ConsultaRequestDTO request) {
+    public ConsultaResponseDTO update(ConsultaRequestDTO request, String id) {
         Consulta consulta = new Consulta(
                 request.especialidade(),
                 request.dataConsulta(),
                 request.status(),
                 request.idPaciente()
         );
+        consulta.setId(UUID.fromString(id));
         dao.updateConsulta(consulta);
         return new ConsultaResponseDTO(
                 consulta.getId(),

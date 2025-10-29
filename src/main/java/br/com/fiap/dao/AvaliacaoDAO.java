@@ -65,7 +65,7 @@ public class AvaliacaoDAO {
 
     public void insertAvaliacao(Avaliacao avaliacao) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_avaliacoes VALUES (?, ?, ?, ?, )");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_avaliacoes VALUES (?, ?, ?, ? )");
             stmt.setString(1, avaliacao.getId().toString());
             stmt.setInt(2, avaliacao.getNota());
             stmt.setString(3, avaliacao.getComentario());
@@ -83,7 +83,7 @@ public class AvaliacaoDAO {
             stmt.setInt(1, avaliacao.getNota());
             stmt.setString(2, avaliacao.getComentario());
             stmt.setTimestamp(3, java.sql.Timestamp.valueOf(avaliacao.getDataAvaliacao()));
-            stmt.setString(5, avaliacao.getId().toString());
+            stmt.setString(4, avaliacao.getId().toString());
             stmt.executeUpdate();
             stmt.close();
 

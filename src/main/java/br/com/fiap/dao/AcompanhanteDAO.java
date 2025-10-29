@@ -27,8 +27,8 @@ public class AcompanhanteDAO {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(4),
-                        UUID.fromString(rs.getString(5))
+                        rs.getString(5),
+                        UUID.fromString(rs.getString(6))
                 );
                 acompanhante.setId(UUID.fromString(rs.getString(1)));
                 acompanhantes.add(acompanhante);
@@ -52,8 +52,8 @@ public class AcompanhanteDAO {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(4),
-                        UUID.fromString(rs.getString(5))
+                        rs.getString(5),
+                        UUID.fromString(rs.getString(6))
                 );
                 acompanhante.setId(UUID.fromString(rs.getString(1)));
             }
@@ -84,7 +84,7 @@ public class AcompanhanteDAO {
 
     public void updateAcompanhante(Acompanhante acompanhante) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acompanhantes SET nome = ?, email = ?, telefone = ?, parentesco = ?, idPaciente = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acompanhantes SET nome = ?, email = ?, telefone = ?, parentesco = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, acompanhante.getNome());
             stmt.setString(2, acompanhante.getEmail());
             stmt.setString(3, acompanhante.getTelefone());

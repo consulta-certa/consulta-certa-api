@@ -17,7 +17,7 @@ public class ConsultaDAO {
         this.conn =  new ConnectionFactory().getConnection();
     }
 
-    public List<Consulta> findAllCosulta() {
+    public List<Consulta> findAllConsulta() {
         try {
             List<Consulta> consultas = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_consultas");
@@ -83,7 +83,7 @@ public class ConsultaDAO {
         try {
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = ?, status = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, consulta.getEspecialidade());
-            stmt.setTimestamp(3, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
+            stmt.setTimestamp(2, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
             stmt.setString(3, consulta.getStatus());
             stmt.setString(4, consulta.getIdPaciente().toString());
             stmt.setString(5, consulta.getId().toString());
