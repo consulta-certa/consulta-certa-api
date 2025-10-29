@@ -73,7 +73,11 @@ public class AcessoDAO {
             stmt.setInt(3, acesso.getQuantidadeAcessos());
             stmt.setInt(4, acesso.getTempoPermanenciaSeg());
             stmt.setTimestamp(5, java.sql.Timestamp.valueOf(acesso.getDataAcesso()));
-            stmt.setString(6, acesso.getIdPaciente().toString());
+            if (acesso.getIdPaciente() != null) {
+                stmt.setString(6, acesso.getIdPaciente().toString());
+            } else {
+                stmt.setNull(6, java.sql.Types.VARCHAR);
+            }
             stmt.execute();
             stmt.close();
 

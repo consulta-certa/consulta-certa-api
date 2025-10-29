@@ -27,7 +27,7 @@ public class ConteudoResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response findById (String id) {
         try {
             return Response.ok(service.findById(id)).build();

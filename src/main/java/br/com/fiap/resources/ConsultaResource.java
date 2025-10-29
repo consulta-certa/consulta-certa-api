@@ -28,7 +28,7 @@ public class ConsultaResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response findById (String id) {
         try {
             return Response.ok(service.findById(id)).build();
@@ -56,7 +56,7 @@ public class ConsultaResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     @Transactional
     public Response update(ConsultaRequestDTO request, @Context UriInfo uriInfo) {
         try {
@@ -71,7 +71,7 @@ public class ConsultaResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     @Transactional
     public Response delete(String id) {
         try {
