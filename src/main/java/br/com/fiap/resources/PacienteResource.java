@@ -31,7 +31,7 @@ public class PacienteResource {
 
     @GET
     @Path("/{id}")
-    public Response findById (String id) {
+    public Response findById (@PathParam("id") String id) {
         try {
             return Response.ok(service.findById(id)).build();
 
@@ -57,7 +57,7 @@ public class PacienteResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response update (PacienteRequestDTO request, String id) {
+    public Response update (PacienteRequestDTO request, @PathParam("id") String id) {
         try {
             return Response.ok(service.update(request, id)).build();
 
@@ -72,7 +72,7 @@ public class PacienteResource {
     @DELETE
     @Path("/{id}")
     @Transactional
-    public Response delete (String id) {
+    public Response delete (@PathParam("id") String id) {
         try {
             service.delete(id);
             return Response.noContent().build();
@@ -81,7 +81,6 @@ public class PacienteResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         } catch (Exception e) {
-            e.printStackTrace();
             return Response.serverError().build();
         }
     }

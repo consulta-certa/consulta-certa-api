@@ -29,7 +29,7 @@ public class AcompanhanteResource {
 
     @GET
     @Path("/{id}")
-    public Response findById(String id) {
+    public Response findById(@PathParam("id") String id) {
         try {
             return Response.ok(service.findById(id)).build();
 
@@ -58,9 +58,9 @@ public class AcompanhanteResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response update(AcompanhanteRequestDTO request) {
+    public Response update(AcompanhanteRequestDTO request, @PathParam("id") String id) {
         try {
-            return Response.ok(service.update(request)).build();
+            return Response.ok(service.update(request, id)).build();
 
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -73,7 +73,7 @@ public class AcompanhanteResource {
     @DELETE
     @Path("/{id}")
     @Transactional
-    public Response delete(String id) {
+    public Response delete(@PathParam("id") String id) {
         try {
             service.delete(id);
             return Response.noContent().build();

@@ -20,7 +20,7 @@ public class ContatoDAO {
     public List<Contato> findAllContato() {
         try {
             List<Contato> contatos = new ArrayList<>();
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_contatos");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_contatos_hc");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Contato contato = new Contato(
@@ -47,7 +47,8 @@ public class ContatoDAO {
     public Contato findByIdContato(String id) {
         try {
             Contato contato = null;
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_contatos WHERE id=?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_contatos_hc WHERE id=?");
+            stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 contato = new Contato(
@@ -72,7 +73,7 @@ public class ContatoDAO {
 
     public void insertContato(Contato contato) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_contatos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_contatos_hc VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, contato.getId().toString());
             stmt.setString(2, contato.getNome());
             stmt.setString(3, contato.getTelefone());
@@ -92,7 +93,7 @@ public class ContatoDAO {
 
     public void updateContato(Contato contato) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_contatos SET nome = ?, telefone = ?, email = ?, numero = ?, rua = ?, bairro = ?, cidade = ?, cep = ? WHERE id_contato = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_contatos_hc SET nome = ?, telefone = ?, email = ?, numero = ?, rua = ?, bairro = ?, cidade = ?, cep = ? WHERE id_contato = ?");
             stmt.setString(1, contato.getNome());
             stmt.setString(2, contato.getTelefone());
             stmt.setString(3, contato.getEmail());
@@ -112,7 +113,7 @@ public class ContatoDAO {
 
     public void deleteContato(String id) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_contatos WHERE id_contato = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_contatos_hc WHERE id_contato = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();

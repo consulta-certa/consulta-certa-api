@@ -45,6 +45,7 @@ public class ConteudoDAO {
         try {
             Conteudo conteudo = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_conteudos WHERE id=?");
+            stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 conteudo = new Conteudo(

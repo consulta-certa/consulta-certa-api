@@ -20,7 +20,8 @@ public class PacienteService {
     }
 
     public PacienteResponseDTO findById(String id) {
-        return toResponse(dao.findByIdPaciente(id));
+        Paciente paciente = dao.findByIdPaciente(id);
+        return paciente != null ? toResponse(paciente) : null;
     }
 
     public PacienteResponseDTO insert(PacienteRequestDTO request) {
@@ -63,7 +64,7 @@ public class PacienteService {
     }
 
     public void delete(String id) {
-        if (dao.findByIdPaciente(id) == null) {
+        if (findById(id) == null) {
             throw new RuntimeException("Paciente não encontrado");
         }
         dao.deletePaciente(id);

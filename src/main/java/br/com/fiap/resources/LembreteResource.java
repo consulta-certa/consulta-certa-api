@@ -3,6 +3,7 @@ package br.com.fiap.resources;
 import br.com.fiap.services.LembreteService;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -28,7 +29,7 @@ public class LembreteResource {
 
     @GET
     @Path("/{id}")
-    public Response findById(String id) {
+    public Response findById(@PathParam("id") String id) {
         try {
             return Response.ok(service.findById(id)).build();
 

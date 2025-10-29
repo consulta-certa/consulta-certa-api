@@ -29,7 +29,7 @@ public class ConsultaResource {
 
     @GET
     @Path("/{id}")
-    public Response findById (String id) {
+    public Response findById (@PathParam("id") String id) {
         try {
             return Response.ok(service.findById(id)).build();
 
@@ -73,7 +73,7 @@ public class ConsultaResource {
     @DELETE
     @Path("/{id}")
     @Transactional
-    public Response delete(String id) {
+    public Response delete(@PathParam("id") String id) {
         try {
             service.delete(id);
             return Response.noContent().build();

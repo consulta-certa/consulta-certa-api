@@ -19,7 +19,7 @@ public class ConteudoService {
 
     public ConteudoResponseDTO findById(String id) {
         Conteudo conteudo = dao.findByIdConteudo(id);
-        return conteudo != null? toResponse(conteudo) : null;
+        return conteudo != null ? toResponse(conteudo) : null;
     }
 
     private ConteudoResponseDTO toResponse(Conteudo conteudo) {

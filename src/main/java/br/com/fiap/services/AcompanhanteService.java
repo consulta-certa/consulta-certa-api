@@ -5,6 +5,7 @@ import br.com.fiap.dto.AcompanhanteRequestDTO;
 import br.com.fiap.dto.AcompanhanteResponseDTO;
 import br.com.fiap.entities.Acompanhante;
 import java.util.List;
+import java.util.UUID;
 
 public class AcompanhanteService {
     private final AcompanhanteDAO dao;
@@ -42,7 +43,7 @@ public class AcompanhanteService {
         );
     }
 
-    public AcompanhanteResponseDTO update(AcompanhanteRequestDTO request) {
+    public AcompanhanteResponseDTO update(AcompanhanteRequestDTO request, String id) {
         Acompanhante acompanhante = new Acompanhante(
             request.nome(),
             request.email(),
@@ -50,7 +51,7 @@ public class AcompanhanteService {
             request.parentesco(),
             request.idPaciente()
         );
-
+        acompanhante.setId(UUID.fromString(id));
         dao.updateAcompanhante(acompanhante);
         return new AcompanhanteResponseDTO(
             acompanhante.getId(),

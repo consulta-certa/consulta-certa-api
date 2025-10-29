@@ -84,7 +84,7 @@ public class PacienteDAO {
 
     public void updatePaciente(Paciente paciente) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_pacientes SET nome = ?, email = ?, senha=?, telefone = ?, SET acompanhantes = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_pacientes SET nome = ?, email = ?, senha=?, telefone = ?, acompanhantes = ? WHERE id = ?");
             stmt.setString(1, paciente.getNome());
             stmt.setString(2, paciente.getEmail());
             stmt.setString(3, paciente.getSenha());
@@ -101,7 +101,7 @@ public class PacienteDAO {
 
     public void deletePaciente(String id) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_pacientes WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_pacientes WHERE id=?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();

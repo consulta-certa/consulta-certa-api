@@ -1,7 +1,5 @@
 package br.com.fiap.dto;
 
-import java.util.UUID;
-
 public record PacienteRequestDTO(
     String nome,
     String email,

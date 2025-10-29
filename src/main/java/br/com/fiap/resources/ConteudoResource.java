@@ -1,8 +1,10 @@
 package br.com.fiap.resources;
 
 import br.com.fiap.services.ConsultaService;
+import br.com.fiap.services.ConteudoService;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -10,10 +12,10 @@ import jakarta.ws.rs.core.Response;
 @Path("/conteudos")
 @Produces(MediaType.APPLICATION_JSON)
 public class ConteudoResource {
-    private final ConsultaService service;
+    private final ConteudoService service;
 
     public ConteudoResource() {
-        this.service = new ConsultaService();
+        this.service = new ConteudoService();
     }
 
     @GET
@@ -28,7 +30,7 @@ public class ConteudoResource {
 
     @GET
     @Path("/{id}")
-    public Response findById (String id) {
+    public Response findById (@PathParam("id") String id) {
         try {
             return Response.ok(service.findById(id)).build();
 
