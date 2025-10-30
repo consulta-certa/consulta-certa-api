@@ -71,7 +71,7 @@ public class ConsultaDAO {
             stmt.setString(1, consulta.getId().toString());
             stmt.setString(2, consulta.getEspecialidade());
             stmt.setTimestamp(3, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
-            stmt.setString(4, consulta.getStatus());
+            stmt.setString(4, consulta.getAtiva());
             stmt.setString(5, consulta.getIdPaciente().toString());
             stmt.execute();
             stmt.close();
@@ -83,10 +83,10 @@ public class ConsultaDAO {
 
     public void updateConsulta(Consulta consulta) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = ?, status = ?, id_paciente = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = ?, ativa = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, consulta.getEspecialidade());
             stmt.setTimestamp(2, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
-            stmt.setString(3, consulta.getStatus());
+            stmt.setString(3, consulta.getAtiva());
             stmt.setString(4, consulta.getIdPaciente().toString());
             stmt.setString(5, consulta.getId().toString());
             stmt.executeUpdate();

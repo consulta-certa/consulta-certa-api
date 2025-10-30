@@ -49,7 +49,7 @@ public class ConsultaService {
         Consulta consulta = new Consulta(
             request.especialidade(),
             request.dataConsulta(),
-            request.status(),
+            request.ativa(),
             UUID.fromString(request.idPaciente())
         );
         dao.insertConsulta(consulta);
@@ -74,7 +74,7 @@ public class ConsultaService {
         Consulta consulta = new Consulta(
                 request.especialidade(),
                 request.dataConsulta(),
-                request.status(),
+                request.ativa(),
                 UUID.fromString(request.idPaciente())
         );
         consulta.setId(UUID.fromString(id));
@@ -100,7 +100,7 @@ public class ConsultaService {
                 consulta.getId().toString(),
                 consulta.getEspecialidade(),
                 consulta.getDataConsulta(),
-                consulta.getStatus(),
+                consulta.getAtiva(),
                 consulta.getIdPaciente().toString()
         );
     }

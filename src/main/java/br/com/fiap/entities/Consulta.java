@@ -7,17 +7,17 @@ public class Consulta {
     private UUID id;
     private String especialidade;
     private LocalDateTime dataConsulta;
-    private String status;
+    private String ativa;
     private UUID idPaciente;
 
     public Consulta() {
     }
 
-    public Consulta(String especialidade, LocalDateTime dataConsulta, String status, UUID idPaciente) {
+    public Consulta(String especialidade, LocalDateTime dataConsulta, String ativa, UUID idPaciente) {
         this.id = UUID.randomUUID();
         this.especialidade = especialidade;
         this.dataConsulta = dataConsulta;
-        this.status = status;
+        this.ativa = ativa;
         this.idPaciente = idPaciente;
     }
 
@@ -45,12 +45,12 @@ public class Consulta {
         this.dataConsulta = dataConsulta;
     }
 
-    public String getStatus() {
-        return status;
+    public String getAtiva() {
+        return ativa;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAtiva(String ativa) {
+        this.ativa = ativa;
     }
 
     public UUID getIdPaciente() {

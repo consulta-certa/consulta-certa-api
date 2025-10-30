@@ -6,6 +6,6 @@ public record ConsultaResponseDTO(
     String id,
     String especialidade,
     LocalDateTime dataConsulta,
-    String status,
+    String ativa,
     String idPaciente
 ) {}
