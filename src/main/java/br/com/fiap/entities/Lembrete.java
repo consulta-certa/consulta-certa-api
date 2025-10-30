@@ -6,13 +6,15 @@ import java.util.UUID;
 public class Lembrete {
     private UUID id;
     private LocalDateTime dataEnvio;
+    private String enviado;
     private UUID idConsulta;
 
     public Lembrete() {}
 
-    public Lembrete(LocalDateTime dataEnvio, UUID idConsulta) {
+    public Lembrete(LocalDateTime dataEnvio, String enviado, UUID idConsulta) {
         this.id = UUID.randomUUID();
         this.dataEnvio = dataEnvio;
+        this.enviado = enviado;
         this.idConsulta = idConsulta;
     }
 
@@ -30,6 +32,14 @@ public class Lembrete {
 
     public void setDataEnvio(LocalDateTime dataEnvio) {
         this.dataEnvio = dataEnvio;
+    }
+
+    public String getEnviado() {
+        return enviado;
+    }
+
+    public void setEnviado(String enviado) {
+        this.enviado = enviado;
     }
 
     public UUID getIdConsulta() {

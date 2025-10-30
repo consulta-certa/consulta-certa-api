@@ -27,7 +27,8 @@ public class LembreteDAO {
             while (rs.next()) {
                 Lembrete lembrete = new Lembrete(
                     rs.getTimestamp(2).toLocalDateTime(),
-                    UUID.fromString(rs.getString(3))
+                    rs.getString(3),
+                    UUID.fromString(rs.getString(4))
                 );
                 lembrete.setId(UUID.fromString(rs.getString(1)));
                 lembretes.add(lembrete);
@@ -49,7 +50,8 @@ public class LembreteDAO {
             if (rs.next()) {
                 lembrete = new Lembrete(
                     rs.getTimestamp(2).toLocalDateTime(),
-                    UUID.fromString(rs.getString(3))
+                    rs.getString(3),
+                    UUID.fromString(rs.getString(4))
                 );
                 lembrete.setId(UUID.fromString(rs.getString(1)));
             }
@@ -63,10 +65,11 @@ public class LembreteDAO {
 
     public void insertLembrete(Lembrete lembrete) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_lembretes VALUES (?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_lembretes VALUES (?, ?, ?, ?)");
             stmt.setString(1, lembrete.getId().toString());
             stmt.setTimestamp(2, java.sql.Timestamp.valueOf(lembrete.getDataEnvio()));
-            stmt.setString(3, lembrete.getIdConsulta().toString());
+            stmt.setString(3, lembrete.getEnviado());
+            stmt.setString(4, lembrete.getIdConsulta().toString());
             stmt.execute();
             stmt.close();
 
@@ -77,10 +80,11 @@ public class LembreteDAO {
 
     public void updateLembrete(Lembrete lembrete) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_lembretes SET dataEnvio = ?, idConsulta = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_lembretes SET dataEnvio = ?, enviado = ?, idConsulta = ? WHERE id = ?");
             stmt.setTimestamp(1, java.sql.Timestamp.valueOf(lembrete.getDataEnvio()));
             stmt.setString(2, lembrete.getIdConsulta().toString());
-            stmt.setString(3, lembrete.getId().toString());
+            stmt.setString(3, lembrete.getEnviado());
+            stmt.setString(4, lembrete.getId().toString());
             stmt.executeUpdate();
             stmt.close();
 

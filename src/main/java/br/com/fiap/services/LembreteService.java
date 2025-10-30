@@ -40,6 +40,7 @@ public class LembreteService {
         return new LembreteResponseDTO(
             lembrete.getId().toString(),
             lembrete.getDataEnvio(),
+            lembrete.getEnviado(),
             lembrete.getIdConsulta().toString()
         );
     }
