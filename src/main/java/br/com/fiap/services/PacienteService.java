@@ -6,13 +6,8 @@ import br.com.fiap.dto.PacienteResponseDTO;
 import br.com.fiap.entities.Paciente;
 import br.com.fiap.exceptions.EntityNotFoundException;
 import br.com.fiap.exceptions.InvalidIdFormatException;
-import br.com.fiap.exceptions.MissingFieldException;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static br.com.fiap.utils.ValidarRequest.verificarNulos;
 
 public class PacienteService {
     private final PacienteDAO dao;
@@ -40,7 +35,6 @@ public class PacienteService {
     }
 
     public PacienteResponseDTO insert(PacienteRequestDTO request) {
-        verificarNulos(request);
         Paciente paciente = new Paciente(
             request.nome(),
             request.email(),
@@ -49,50 +43,48 @@ public class PacienteService {
             request.acompanhantes()
         );
         dao.insertPaciente(paciente);
-        return new PacienteResponseDTO(
-            paciente.getId(),
-            paciente.getNome(),
-            paciente.getEmail(),
-            paciente.getSenha(),
-            paciente.getTelefone(),
-            paciente.getAcompanhantes()
-        );
+
+        return toResponse(paciente);
     }
 
     public PacienteResponseDTO update(PacienteRequestDTO request, String id) {
-        if (findById(id) == null) {
-            throw new EntityNotFoundException("pacientee");
+        // Regra de negócio: campos id precisam seguir o padrão estabelecido.
+        try {
+            if (findById(id) == null) {
+                throw new EntityNotFoundException("pacientee");
+            }
+
+            Paciente paciente = new Paciente(
+                    request.nome(),
+                    request.email(),
+                    request.senha(),
+                    request.telefone(),
+                    request.acompanhantes()
+            );
+            paciente.setId(UUID.fromString(id));
+            dao.updatePaciente(paciente);
+
+            return toResponse(paciente);
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
         }
-        verificarNulos(request);
-        Paciente paciente = new Paciente(
-            request.nome(),
-            request.email(),
-            request.senha(),
-            request.telefone(),
-            request.acompanhantes()
-        );
-        paciente.setId(UUID.fromString(id));
-        dao.updatePaciente(paciente);
-        return new PacienteResponseDTO(
-            paciente.getId(),
-            paciente.getNome(),
-            paciente.getEmail(),
-            paciente.getSenha(),
-            paciente.getTelefone(),
-            paciente.getAcompanhantes()
-        );
     }
 
     public void delete(String id) {
-        if (findById(id) == null) {
-            throw new EntityNotFoundException("pacientee");
+        try {
+            if (findById(id) == null) {
+                throw new EntityNotFoundException("pacientee");
+            }
+            dao.deletePaciente(id);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
         }
-        dao.deletePaciente(id);
     }
 
     private PacienteResponseDTO toResponse(Paciente paciente) {
         return new PacienteResponseDTO(
-            paciente.getId(),
+            paciente.getId().toString(),
             paciente.getNome(),
             paciente.getEmail(),
             paciente.getSenha(),

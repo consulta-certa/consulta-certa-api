@@ -1,5 +1,3 @@
 package br.com.fiap.dto;
 
-import java.util.UUID;
-
-public record InteracaoResponseDTO(UUID id) {}
+public record InteracaoResponseDTO(String id) {}

@@ -23,7 +23,7 @@ public class AcessoResource {
     public Response insert(AcessoRequestDTO request, @Context UriInfo uriInfo) {
         AcessoResponseDTO response = service.insert(request);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(response.id().toString());
+        builder.path(response.id());
         return Response.created(builder.build()).build();
     }
 }

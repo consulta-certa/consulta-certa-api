@@ -33,14 +33,14 @@ public class ConsultaResource {
     public Response insert(ConsultaRequestDTO request, @Context UriInfo uriInfo) {
         ConsultaResponseDTO response = service.insert(request);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(response.id().toString());
+        builder.path(response.id());
         return Response.created(builder.build()).entity(response).build();
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response update(ConsultaRequestDTO request, @PathParam("id") String id, @Context UriInfo uriInfo) {
+    public Response update(ConsultaRequestDTO request, @PathParam("id") String id) {
         return Response.ok(service.update(request, id)).build();
     }
 

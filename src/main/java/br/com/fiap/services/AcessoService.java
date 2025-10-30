@@ -4,8 +4,9 @@ import br.com.fiap.dao.AcessoDAO;
 import br.com.fiap.dto.AcessoRequestDTO;
 import br.com.fiap.dto.AcessoResponseDTO;
 import br.com.fiap.entities.Acesso;
+import br.com.fiap.exceptions.InvalidIdFormatException;
 
-import static br.com.fiap.utils.ValidarRequest.verificarNulos;
+import java.util.UUID;
 
 public class AcessoService {
     private final AcessoDAO dao;
@@ -15,17 +16,27 @@ public class AcessoService {
     }
 
     public AcessoResponseDTO insert(AcessoRequestDTO request) {
-        verificarNulos(request);
+        // Regra de negócio: campos id precisam seguir o padrão estabelecido.
+        try {
+            if (request.idPaciente() != null) {
+                UUID uuidForeign = UUID.fromString(request.idPaciente());
+            }
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
+        }
+
+        assert request.idPaciente() != null;
         Acesso acesso = new Acesso(
             request.funcionalidade(),
             request.quantidadeAcessos(),
             request.tempoPermanenciaSeg(),
             request.dataAcesso(),
-            request.idPaciente()
+            UUID.fromString(request.idPaciente())
         );
         dao.insertAcessos(acesso);
+
         return new AcessoResponseDTO(
-            acesso.getId()
+            acesso.getId().toString()
         );
     }
 }

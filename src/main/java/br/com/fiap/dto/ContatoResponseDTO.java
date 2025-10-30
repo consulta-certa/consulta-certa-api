@@ -1,9 +1,7 @@
 package br.com.fiap.dto;
 
-import java.util.UUID;
-
 public record ContatoResponseDTO(
-    UUID id,
+    String id,
     String nome,
     String telefone,
     String email,

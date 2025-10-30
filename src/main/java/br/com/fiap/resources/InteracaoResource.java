@@ -23,7 +23,7 @@ public class InteracaoResource {
     public Response insert(InteracaoRequestDTO request, @Context UriInfo uriInfo) {
         InteracaoResponseDTO response = service.insert(request);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(response.id().toString());
+        builder.path(response.id());
         return Response.created(builder.build()).build();
     }
 }

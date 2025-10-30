@@ -5,8 +5,6 @@ import br.com.fiap.dto.AvaliacaoRequestDTO;
 import br.com.fiap.dto.AvaliacaoResponseDTO;
 import br.com.fiap.entities.Avaliacao;
 
-import static br.com.fiap.utils.ValidarRequest.verificarNulos;
-
 public class AvaliacaoService {
     private final AvaliacaoDAO dao;
 
@@ -15,15 +13,15 @@ public class AvaliacaoService {
     }
 
     public AvaliacaoResponseDTO insert(AvaliacaoRequestDTO request) {
-        verificarNulos(request);
         Avaliacao avaliacao = new Avaliacao(
             request.nota(),
             request.comentario(),
             request.dataAvaliacao()
         );
         dao.insertAvaliacao(avaliacao);
+
         return new AvaliacaoResponseDTO(
-          avaliacao.getId()
+          avaliacao.getId().toString()
         );
     }
 }

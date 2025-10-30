@@ -1,13 +1,11 @@
 package br.com.fiap.resources;
 
 import br.com.fiap.dto.PacienteRequestDTO;
+import br.com.fiap.dto.PacienteResponseDTO;
 import br.com.fiap.services.PacienteService;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.*;
 
 @Path("/pacientes")
 @Produces(MediaType.APPLICATION_JSON)
@@ -33,7 +31,10 @@ public class PacienteResource {
     @POST
     @Transactional
     public Response insert (PacienteRequestDTO request, @Context UriInfo uriInfo) {
-        return Response.created(uriInfo.getAbsolutePath()).entity(service.insert(request)).build();
+        PacienteResponseDTO response = service.insert(request);
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(response.id());
+        return Response.created(builder.build()).entity(response).build();
     }
 
     @PUT

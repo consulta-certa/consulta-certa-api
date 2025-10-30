@@ -5,11 +5,10 @@ import br.com.fiap.dto.AcompanhanteRequestDTO;
 import br.com.fiap.dto.AcompanhanteResponseDTO;
 import br.com.fiap.entities.Acompanhante;
 import br.com.fiap.exceptions.EntityNotFoundException;
+import br.com.fiap.exceptions.InvalidIdFormatException;
 
 import java.util.List;
 import java.util.UUID;
-
-import static br.com.fiap.utils.ValidarRequest.verificarNulos;
 
 public class AcompanhanteService {
     private final AcompanhanteDAO dao;
@@ -23,71 +22,89 @@ public class AcompanhanteService {
     }
 
     public AcompanhanteResponseDTO findById (String id) {
-        Acompanhante acompanhante = dao.findByIdAcompanhante(id);
-        return acompanhante != null ? toResponse(acompanhante) : null;
+        // Regra de negócio: campos id precisam seguir o padrão estabelecido.
+        try {
+            UUID uuid = UUID.fromString(id);
+            Acompanhante acompanhante = dao.findByIdAcompanhante(uuid.toString());
+
+            if (acompanhante == null) {
+                throw new EntityNotFoundException("acompanhante");
+            }
+            return toResponse(acompanhante);
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
+        }
     }
 
     public AcompanhanteResponseDTO insert(AcompanhanteRequestDTO request) {
-        verificarNulos(request);
+        // Regra de negócio: campos id precisam seguir o padrão estabelecido.
+        try {
+            UUID uuid = UUID.fromString(request.idPaciente());
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
+        }
+
         Acompanhante acompanhante = new Acompanhante(
             request.nome(),
             request.email(),
             request.telefone(),
             request.parentesco(),
-            request.idPaciente()
+            UUID.fromString(request.idPaciente())
         );
         dao.insertAcompanhante(acompanhante);
 
-        return new AcompanhanteResponseDTO(
-            acompanhante.getId(),
-            acompanhante.getNome(),
-            acompanhante.getEmail(),
-            acompanhante.getTelefone(),
-            acompanhante.getParentesco(),
-            acompanhante.getIdPaciente()
-        );
+        return toResponse(acompanhante);
     }
 
     public AcompanhanteResponseDTO update(AcompanhanteRequestDTO request, String id) {
+        // Regra de negócio: campos id precisam seguir o padrão estabelecido.
+        try {
+            UUID uuid = UUID.fromString(id);
+            UUID uuidForeign = UUID.fromString(request.idPaciente());
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
+        }
+
         if (findById(id) == null) {
             throw new EntityNotFoundException("acompanhante");
         }
-        verificarNulos(request);
+
         Acompanhante acompanhante = new Acompanhante(
-            request.nome(),
-            request.email(),
-            request.telefone(),
-            request.parentesco(),
-            request.idPaciente()
+                request.nome(),
+                request.email(),
+                request.telefone(),
+                request.parentesco(),
+                UUID.fromString(request.idPaciente())
         );
         acompanhante.setId(UUID.fromString(id));
         dao.updateAcompanhante(acompanhante);
-        return new AcompanhanteResponseDTO(
-            acompanhante.getId(),
-            acompanhante.getNome(),
-            acompanhante.getEmail(),
-            acompanhante.getTelefone(),
-            acompanhante.getParentesco(),
-            acompanhante.getIdPaciente()
-        );
+
+        return toResponse(acompanhante);
     }
 
     public void delete(String id) {
-        if (findById(id) == null) {
-            throw new EntityNotFoundException("acompanhante");
-        }
+        try {
+            if (findById(id) == null) {
+                throw new EntityNotFoundException("acompanhante");
+            }
+            dao.deleteAcompanhante(id);
 
-        dao.deleteAcompanhante(id);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
+        }
     }
 
     private AcompanhanteResponseDTO toResponse(Acompanhante acompanhante) {
         return new AcompanhanteResponseDTO(
-            acompanhante.getId(),
+            acompanhante.getId().toString(),
             acompanhante.getNome(),
             acompanhante.getEmail(),
             acompanhante.getTelefone(),
             acompanhante.getParentesco(),
-            acompanhante.getIdPaciente()
+            acompanhante.getIdPaciente().toString()
         );
     }
 }

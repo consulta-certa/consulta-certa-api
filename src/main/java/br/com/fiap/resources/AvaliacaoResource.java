@@ -23,7 +23,7 @@ public class AvaliacaoResource {
     public Response insert(AvaliacaoRequestDTO request, @Context UriInfo uriInfo) {
         AvaliacaoResponseDTO response = service.insert(request);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(response.id().toString());
+        builder.path(response.id());
         return Response.created(builder.build()).build();
     }
 }

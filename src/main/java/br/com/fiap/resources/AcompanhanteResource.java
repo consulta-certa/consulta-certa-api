@@ -33,7 +33,7 @@ public class AcompanhanteResource {
     public Response insert(AcompanhanteRequestDTO request, @Context UriInfo uriInfo) {
         AcompanhanteResponseDTO response = service.insert(request);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(response.id().toString());
+        builder.path(response.id());
         return Response.created(builder.build()).entity(response).build();
     }
 
