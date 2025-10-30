@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Lembrete;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +36,7 @@ public class LembreteDAO {
             return lembretes;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar lembretes", e);
+            throw new DatabaseException("listar lembretes", e);
         }
     }
 
@@ -55,7 +57,7 @@ public class LembreteDAO {
             return lembrete;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar lembrete", e);
+            throw new DatabaseException("encontrar lembrete", e);
         }
     }
 
@@ -69,7 +71,7 @@ public class LembreteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao registrar lembrete", e);
+            throw new DatabaseException("registrar lembrete", e);
         }
     }
 
@@ -83,7 +85,7 @@ public class LembreteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar lembrete", e);
+            throw new DatabaseException("atualizar lembrete", e);
         }
     }
 
@@ -95,7 +97,7 @@ public class LembreteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover lembrete", e);
+            throw new DatabaseException("remover lembrete", e);
         }
     }
 }

@@ -5,6 +5,8 @@ import br.com.fiap.dto.AcessoRequestDTO;
 import br.com.fiap.dto.AcessoResponseDTO;
 import br.com.fiap.entities.Acesso;
 
+import static br.com.fiap.utils.ValidarRequest.verificarNulos;
+
 public class AcessoService {
     private final AcessoDAO dao;
 
@@ -13,6 +15,7 @@ public class AcessoService {
     }
 
     public AcessoResponseDTO insert(AcessoRequestDTO request) {
+        verificarNulos(request);
         Acesso acesso = new Acesso(
             request.funcionalidade(),
             request.quantidadeAcessos(),

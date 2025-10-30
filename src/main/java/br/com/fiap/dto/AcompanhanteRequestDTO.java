@@ -1,11 +1,13 @@
 package br.com.fiap.dto;
 
+import br.com.fiap.annotation.NotNullField;
+
 import java.util.UUID;
 
 public record AcompanhanteRequestDTO(
-    String nome,
-    String email,
-    String telefone,
-    String parentesco,
-    UUID idPaciente
+    @NotNullField String nome,
+    @NotNullField String email,
+    @NotNullField String telefone,
+    @NotNullField String parentesco,
+    @NotNullField UUID idPaciente
 ) {}

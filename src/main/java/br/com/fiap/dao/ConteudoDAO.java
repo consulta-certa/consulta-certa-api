@@ -1,6 +1,8 @@
 package br.com.fiap.dao;
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Conteudo;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class ConteudoDAO {
             return conteudos;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar conteudos", e);
+            throw new DatabaseException("listar conteudos", e);
         }
     }
 
@@ -62,7 +64,7 @@ public class ConteudoDAO {
             return conteudo;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar conteudo", e);
+            throw new DatabaseException("encontrar conteudo", e);
         }
     }
 
@@ -80,7 +82,7 @@ public class ConteudoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir conteúdo", e);
+            throw new DatabaseException("inserir conteúdo", e);
         }
     }
 
@@ -98,7 +100,7 @@ public class ConteudoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar conteúdo", e);
+            throw new DatabaseException("atualizar conteúdo", e);
         }
     }
 
@@ -110,7 +112,7 @@ public class ConteudoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover conteúdo", e);
+            throw new DatabaseException("remover conteúdo", e);
         }
     }
 }

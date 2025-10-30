@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Acompanhante;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class AcompanhanteDAO {
             return acompanhantes;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar acompanhantes", e);
+            throw new DatabaseException("listar acompanhantes", e);
         }
     }
 
@@ -61,7 +63,7 @@ public class AcompanhanteDAO {
             return acompanhante;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar acompanhante", e);
+            throw new DatabaseException("encontrar acompanhante", e);
         }
     }
 
@@ -78,7 +80,7 @@ public class AcompanhanteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao registrar acompanhante", e);
+            throw new DatabaseException("registrar acompanhante", e);
         }
     }
 
@@ -95,7 +97,7 @@ public class AcompanhanteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar acompanhante", e);
+            throw new DatabaseException("atualizar acompanhante", e);
         }
     }
 
@@ -107,7 +109,7 @@ public class AcompanhanteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover acompanhante", e);
+            throw new DatabaseException("remover acompanhante", e);
         }
     }
 }

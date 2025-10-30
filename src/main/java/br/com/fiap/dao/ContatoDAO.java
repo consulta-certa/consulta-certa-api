@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Contato;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,7 +42,7 @@ public class ContatoDAO {
             return contatos;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar contatos", e);
+            throw new DatabaseException("listar contatos", e);
         }
     }
 
@@ -67,7 +69,7 @@ public class ContatoDAO {
             return contato;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar contato", e);
+            throw new DatabaseException("encontrar contato", e);
         }
     }
 
@@ -87,7 +89,7 @@ public class ContatoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao registrar contato", e);
+            throw new DatabaseException("registrar contato", e);
         }
     }
 
@@ -107,7 +109,7 @@ public class ContatoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar contato", e);
+            throw new DatabaseException("atualizar contato", e);
         }
     }
 
@@ -119,7 +121,7 @@ public class ContatoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover contato", e);
+            throw new DatabaseException("remover contato", e);
         }
     }
 }

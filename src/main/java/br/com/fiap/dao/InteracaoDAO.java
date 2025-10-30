@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.InteracaoChatbot;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +37,7 @@ public class InteracaoDAO {
             return interacoes;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar interações", e);
+            throw new DatabaseException("listar interações", e);
         }
     }
 
@@ -57,7 +59,7 @@ public class InteracaoDAO {
             return interacao;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar interação", e);
+            throw new DatabaseException("encontrar interação", e);
         }
     }
 
@@ -72,7 +74,7 @@ public class InteracaoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao registrar interação", e);
+            throw new DatabaseException("registrar interação", e);
         }
     }
 
@@ -87,7 +89,7 @@ public class InteracaoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar interação", e);
+            throw new DatabaseException("atualizar interação", e);
         }
     }
 
@@ -99,7 +101,7 @@ public class InteracaoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover interação", e);
+            throw new DatabaseException("remover interação", e);
         }
     }
 }

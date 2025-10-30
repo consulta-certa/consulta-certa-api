@@ -19,25 +19,12 @@ public class ContatoResource {
 
     @GET
     public Response findAll() {
-        try {
-            return Response.ok(service.findAll()).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return Response.ok(service.findAll()).build();
     }
 
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") String id){
-        try {
-            return Response.ok(service.findById(id)).build();
-
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return Response.ok(service.findById(id)).build();
     }
 }

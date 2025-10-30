@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Avaliacao;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class AvaliacaoDAO {
             return avaliacoes;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar avaliações", e);
+            throw new DatabaseException("listar avaliações", e);
         }
     }
 
@@ -59,7 +61,7 @@ public class AvaliacaoDAO {
             return avaliacao;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar avaliação", e);
+            throw new DatabaseException("encontrar avaliação", e);
         }
     }
 
@@ -73,7 +75,7 @@ public class AvaliacaoDAO {
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao registrar avaliação", e);
+            throw new DatabaseException("registrar avaliação", e);
         }
     }
 
@@ -88,7 +90,7 @@ public class AvaliacaoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar avaliação", e);
+            throw new DatabaseException("atualizar avaliação", e);
         }
     }
 
@@ -100,7 +102,7 @@ public class AvaliacaoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover avaliação", e);
+            throw new DatabaseException("remover avaliação", e);
         }
     }
 }

@@ -4,9 +4,15 @@ import br.com.fiap.dao.PacienteDAO;
 import br.com.fiap.dto.PacienteRequestDTO;
 import br.com.fiap.dto.PacienteResponseDTO;
 import br.com.fiap.entities.Paciente;
+import br.com.fiap.exceptions.EntityNotFoundException;
+import br.com.fiap.exceptions.InvalidIdFormatException;
+import br.com.fiap.exceptions.MissingFieldException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static br.com.fiap.utils.ValidarRequest.verificarNulos;
 
 public class PacienteService {
     private final PacienteDAO dao;
@@ -20,11 +26,21 @@ public class PacienteService {
     }
 
     public PacienteResponseDTO findById(String id) {
-        Paciente paciente = dao.findByIdPaciente(id);
-        return paciente != null ? toResponse(paciente) : null;
+        try {
+            UUID uuid = UUID.fromString(id);
+            Paciente paciente = dao.findByIdPaciente(uuid.toString());
+            if (paciente == null) {
+                throw new EntityNotFoundException("paciente");
+            }
+            return toResponse(paciente);
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdFormatException();
+        }
     }
 
     public PacienteResponseDTO insert(PacienteRequestDTO request) {
+        verificarNulos(request);
         Paciente paciente = new Paciente(
             request.nome(),
             request.email(),
@@ -44,6 +60,10 @@ public class PacienteService {
     }
 
     public PacienteResponseDTO update(PacienteRequestDTO request, String id) {
+        if (findById(id) == null) {
+            throw new EntityNotFoundException("pacientee");
+        }
+        verificarNulos(request);
         Paciente paciente = new Paciente(
             request.nome(),
             request.email(),
@@ -65,7 +85,7 @@ public class PacienteService {
 
     public void delete(String id) {
         if (findById(id) == null) {
-            throw new RuntimeException("Paciente não encontrado");
+            throw new EntityNotFoundException("pacientee");
         }
         dao.deletePaciente(id);
     }

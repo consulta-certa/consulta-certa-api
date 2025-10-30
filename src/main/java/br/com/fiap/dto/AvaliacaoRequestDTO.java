@@ -1,10 +1,12 @@
 package br.com.fiap.dto;
 
+import br.com.fiap.annotation.NotNullField;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record AvaliacaoRequestDTO(
-    int nota,
+    @NotNullField int nota,
     String comentario,
-    LocalDateTime dataAvaliacao
+    @NotNullField LocalDateTime dataAvaliacao
 ) {}

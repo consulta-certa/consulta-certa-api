@@ -4,6 +4,7 @@ import br.com.fiap.dao.ConsultaDAO;
 import br.com.fiap.dto.ConsultaRequestDTO;
 import br.com.fiap.dto.ConsultaResponseDTO;
 import br.com.fiap.entities.Consulta;
+import br.com.fiap.exceptions.EntityNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +43,10 @@ public class ConsultaService {
     }
 
     public ConsultaResponseDTO update(ConsultaRequestDTO request, String id) {
+        if (findById(id) == null) {
+            throw new EntityNotFoundException("consulta");
+        }
+
         Consulta consulta = new Consulta(
                 request.especialidade(),
                 request.dataConsulta(),
@@ -61,7 +66,7 @@ public class ConsultaService {
 
     public void delete(String id) {
         if (findById(id) == null) {
-            throw new RuntimeException("Consulta não encontrada");
+            throw new EntityNotFoundException("consulta");
         }
 
         dao.deleteConsulta(id);

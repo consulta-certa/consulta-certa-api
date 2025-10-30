@@ -1,5 +1,7 @@
 package br.com.fiap.connections;
 
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,9 +18,10 @@ public class ConnectionFactory {
                     "050304"
             );
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Erro ao carregar o driver JDBC", e);
+            throw new DatabaseException("não foi possível encontrar o driver JDBC");
+
         } catch (SQLException e) {
-            throw new RuntimeException("Erro de conexão com o banco", e);
+            throw new DatabaseException("não foi possível estabelecer conexão com o banco");
         }
     }
 }

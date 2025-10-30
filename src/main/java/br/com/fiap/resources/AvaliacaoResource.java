@@ -21,14 +21,9 @@ public class AvaliacaoResource {
     @POST
     @Transactional
     public Response insert(AvaliacaoRequestDTO request, @Context UriInfo uriInfo) {
-        try {
-            AvaliacaoResponseDTO response = service.insert(request);
-            UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-            builder.path(response.id().toString());
-            return Response.created(builder.build()).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        AvaliacaoResponseDTO response = service.insert(request);
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(response.id().toString());
+        return Response.created(builder.build()).build();
     }
 }

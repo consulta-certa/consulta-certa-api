@@ -4,8 +4,12 @@ import br.com.fiap.dao.AcompanhanteDAO;
 import br.com.fiap.dto.AcompanhanteRequestDTO;
 import br.com.fiap.dto.AcompanhanteResponseDTO;
 import br.com.fiap.entities.Acompanhante;
+import br.com.fiap.exceptions.EntityNotFoundException;
+
 import java.util.List;
 import java.util.UUID;
+
+import static br.com.fiap.utils.ValidarRequest.verificarNulos;
 
 public class AcompanhanteService {
     private final AcompanhanteDAO dao;
@@ -24,6 +28,7 @@ public class AcompanhanteService {
     }
 
     public AcompanhanteResponseDTO insert(AcompanhanteRequestDTO request) {
+        verificarNulos(request);
         Acompanhante acompanhante = new Acompanhante(
             request.nome(),
             request.email(),
@@ -44,6 +49,10 @@ public class AcompanhanteService {
     }
 
     public AcompanhanteResponseDTO update(AcompanhanteRequestDTO request, String id) {
+        if (findById(id) == null) {
+            throw new EntityNotFoundException("acompanhante");
+        }
+        verificarNulos(request);
         Acompanhante acompanhante = new Acompanhante(
             request.nome(),
             request.email(),
@@ -65,7 +74,7 @@ public class AcompanhanteService {
 
     public void delete(String id) {
         if (findById(id) == null) {
-            throw new RuntimeException("Acompanhante não encontrado");
+            throw new EntityNotFoundException("acompanhante");
         }
 
         dao.deleteAcompanhante(id);

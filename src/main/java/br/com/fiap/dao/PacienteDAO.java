@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Paciente;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class PacienteDAO {
             return pacientes;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar pacientes", e);
+            throw new DatabaseException("listar pacientes", e);
         }
     }
 
@@ -61,7 +63,7 @@ public class PacienteDAO {
             return paciente;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar paciente", e);
+            throw new DatabaseException("encontrar paciente", e);
         }
     }
 
@@ -78,7 +80,7 @@ public class PacienteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao registrar paciente", e);
+            throw new DatabaseException("registrar paciente", e);
         }
     }
 
@@ -95,7 +97,7 @@ public class PacienteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar paciente", e);
+            throw new DatabaseException("atualizar paciente", e);
         }
     }
 
@@ -107,7 +109,7 @@ public class PacienteDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover paciente", e);
+            throw new DatabaseException("remover paciente", e);
         }
     }
 }

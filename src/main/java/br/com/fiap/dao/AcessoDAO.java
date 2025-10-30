@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Acesso;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class AcessoDAO {
             return acessos;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar acompanhantes", e);
+            throw new DatabaseException("listar acessos", e);
         }
     }
 
@@ -61,7 +63,7 @@ public class AcessoDAO {
             return acesso;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar acompanhante",e);
+            throw new DatabaseException("encontrar acesso",e);
         }
     }
 
@@ -82,7 +84,7 @@ public class AcessoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro envolvendo SQL",e);
+            throw new DatabaseException("registrar acesso", e);
         }
     }
 
@@ -99,7 +101,7 @@ public class AcessoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro envolvendo SQL",e);
+            throw new DatabaseException("atualizar acesso", e);
         }
 
     }
@@ -112,7 +114,7 @@ public class AcessoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro envolvendo SQL",e);
+            throw new DatabaseException("remover acesso", e);
         }
     }
 }

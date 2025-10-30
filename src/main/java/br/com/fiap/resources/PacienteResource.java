@@ -21,67 +21,33 @@ public class PacienteResource {
 
     @GET
     public Response findAll () {
-        try {
-            return Response.ok(service.findAll()).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return Response.ok(service.findAll()).build();
     }
 
     @GET
     @Path("/{id}")
     public Response findById (@PathParam("id") String id) {
-        try {
-            return Response.ok(service.findById(id)).build();
-
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return Response.ok(service.findById(id)).build();
     }
 
     @POST
     @Transactional
     public Response insert (PacienteRequestDTO request, @Context UriInfo uriInfo) {
-        try {
-            return Response.created(uriInfo.getAbsolutePath()).entity(service.insert(request)).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return Response.created(uriInfo.getAbsolutePath()).entity(service.insert(request)).build();
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
     public Response update (PacienteRequestDTO request, @PathParam("id") String id) {
-        try {
-            return Response.ok(service.update(request, id)).build();
-
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return Response.ok(service.update(request, id)).build();
     }
 
     @DELETE
     @Path("/{id}")
     @Transactional
     public Response delete (@PathParam("id") String id) {
-        try {
-            service.delete(id);
-            return Response.noContent().build();
-
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        service.delete(id);
+        return Response.noContent().build();
     }
 }

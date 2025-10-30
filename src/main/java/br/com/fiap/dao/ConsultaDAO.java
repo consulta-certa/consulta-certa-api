@@ -2,6 +2,8 @@ package br.com.fiap.dao;
 
 import br.com.fiap.connections.ConnectionFactory;
 import br.com.fiap.entities.Consulta;
+import br.com.fiap.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,7 +38,7 @@ public class ConsultaDAO {
             return consultas;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar consultas", e);
+            throw new DatabaseException("listar consultas", e);
         }
     }
 
@@ -59,7 +61,7 @@ public class ConsultaDAO {
             return consulta;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar consulta", e);
+            throw new DatabaseException("encontrar consulta", e);
         }
     }
 
@@ -75,7 +77,7 @@ public class ConsultaDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao registrar consulta", e);
+            throw new DatabaseException("registrar consulta", e);
         }
     }
 
@@ -91,7 +93,7 @@ public class ConsultaDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar consulta", e);
+            throw new DatabaseException("atualizar consulta", e);
         }
     }
 
@@ -103,7 +105,7 @@ public class ConsultaDAO {
             stmt.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao remover consulta", e);
+            throw new DatabaseException("remover consulta", e);
         }
     }
 }

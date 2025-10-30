@@ -1,11 +1,13 @@
 package br.com.fiap.dto;
 
+import br.com.fiap.annotation.NotNullField;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ConsultaRequestDTO(
-    String especialidade,
-    LocalDateTime dataConsulta,
-    String status,
-    UUID idPaciente
+    @NotNullField String especialidade,
+    @NotNullField LocalDateTime dataConsulta,
+    @NotNullField String status,
+    @NotNullField UUID idPaciente
 ) {}
