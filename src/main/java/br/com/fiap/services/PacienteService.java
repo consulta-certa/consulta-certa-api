@@ -1,13 +1,19 @@
 package br.com.fiap.services;
 
 import br.com.fiap.dao.PacienteDAO;
-import br.com.fiap.dto.PacienteRequestDTO;
-import br.com.fiap.dto.PacienteResponseDTO;
+import br.com.fiap.dto.*;
 import br.com.fiap.entities.Paciente;
+import br.com.fiap.exceptions.CredentialsException;
 import br.com.fiap.exceptions.EntityNotFoundException;
 import br.com.fiap.exceptions.InvalidIdFormatException;
+import br.com.fiap.utils.JwtUtils;
+import br.com.fiap.utils.PasswordUtils;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import static br.com.fiap.utils.PasswordUtils.verifyHash;
 
 public class PacienteService {
     private final PacienteDAO dao;
@@ -35,16 +41,40 @@ public class PacienteService {
     }
 
     public PacienteResponseDTO insert(PacienteRequestDTO request) {
+        String senhaHashed = PasswordUtils.generateHash(request.senha().toCharArray());
         Paciente paciente = new Paciente(
             request.nome(),
             request.email(),
-            request.senha(),
+            senhaHashed,
             request.telefone(),
             request.acompanhantes()
         );
         dao.insertPaciente(paciente);
 
         return toResponse(paciente);
+    }
+
+    public TokenResponseDTO login (SignInRequestDTO request) {
+        List<Paciente> pacientes = dao.findAllPaciente();
+        Optional<Paciente> paciente = pacientes.stream().filter(paciente1 -> paciente1.getEmail().equals(request.email())).findAny();
+
+        if (paciente.isEmpty()) {
+            throw new CredentialsException("email não cadastrado.");
+        }
+
+        boolean senhaCorreta = verifyHash(request.senha(), paciente.get().getSenha());
+
+        if (!senhaCorreta) {
+            throw new CredentialsException("senha incorreta.");
+        }
+
+        String token = JwtUtils.generateToken(
+            paciente.get().getId().toString(),
+            paciente.get().getNome(),
+            paciente.get().getAcompanhantes()
+        );
+
+        return new TokenResponseDTO(token);
     }
 
     public PacienteResponseDTO update(PacienteRequestDTO request, String id) {
@@ -77,6 +107,7 @@ public class PacienteService {
                 throw new EntityNotFoundException("pacientee");
             }
             dao.deletePaciente(id);
+
         } catch (IllegalArgumentException e) {
             throw new InvalidIdFormatException();
         }
@@ -87,7 +118,6 @@ public class PacienteService {
             paciente.getId().toString(),
             paciente.getNome(),
             paciente.getEmail(),
-            paciente.getSenha(),
             paciente.getTelefone(),
             paciente.getAcompanhantes()
         );

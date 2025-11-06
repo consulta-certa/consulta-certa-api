@@ -2,6 +2,8 @@ package br.com.fiap.resources;
 
 import br.com.fiap.dto.PacienteRequestDTO;
 import br.com.fiap.dto.PacienteResponseDTO;
+import br.com.fiap.dto.SignInRequestDTO;
+import br.com.fiap.dto.TokenResponseDTO;
 import br.com.fiap.services.PacienteService;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -29,12 +31,19 @@ public class PacienteResource {
     }
 
     @POST
+    @Path("/register")
     @Transactional
     public Response insert (PacienteRequestDTO request, @Context UriInfo uriInfo) {
         PacienteResponseDTO response = service.insert(request);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         builder.path(response.id());
         return Response.created(builder.build()).entity(response).build();
+    }
+
+    @POST
+    @Path("/login")
+    public Response login (SignInRequestDTO request) {
+        return Response.ok(service.login(request)).build();
     }
 
     @PUT

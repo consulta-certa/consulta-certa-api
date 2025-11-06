@@ -12,6 +12,10 @@ import jakarta.ws.rs.ext.Provider;
 public class ExceptionHandler implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable e) {
+        if (e instanceof CredentialsException) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ErroResponseDTO(e.getMessage())).build();
+        }
+
         if (e instanceof DatabaseException) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ErroResponseDTO(
                 e.getMessage() + "Causa: " + e.getCause().getMessage().replace("RM566315.", "")
@@ -23,10 +27,6 @@ public class ExceptionHandler implements ExceptionMapper<Throwable> {
         }
 
         if (e instanceof InvalidIdFormatException) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(new ErroResponseDTO(e.getMessage())).build();
-        }
-
-        if (e instanceof MissingFieldException) {
             return Response.status(Response.Status.BAD_REQUEST).entity(new ErroResponseDTO(e.getMessage())).build();
         }
 
@@ -42,6 +42,6 @@ public class ExceptionHandler implements ExceptionMapper<Throwable> {
             ).build();
         }
 
-        return Response.serverError().entity(new ErroResponseDTO("|ERRO|: erro inesperado, verifique disponibilidade do servidor.")).build();
+        return Response.serverError().entity(new ErroResponseDTO("|ERRO|: erro inesperado, verifique disponibilidade do servidor. " + e)).build();
     }
 }
