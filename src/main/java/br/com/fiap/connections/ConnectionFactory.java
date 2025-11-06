@@ -11,11 +11,11 @@ public class ConnectionFactory {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
-//          Futuramente vou atualizar com variáveis de ambiente, por questão de boas práticas de segurança
+//          Futuramente será atualizado usando variáveis de ambiente, mas está exposto para facilitar execução na correção
             return DriverManager.getConnection(
-                    "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL",
-                    "RM566315",
-                    "050304"
+                "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL",
+                "RM566315",
+                "050304"
             );
         } catch (ClassNotFoundException e) {
             throw new DatabaseException("não foi possível encontrar o driver JDBC");
