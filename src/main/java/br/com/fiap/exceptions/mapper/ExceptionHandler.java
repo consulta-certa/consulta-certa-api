@@ -12,10 +12,6 @@ import jakarta.ws.rs.ext.Provider;
 public class ExceptionHandler implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable e) {
-        if (e instanceof CredentialsException) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity(new ErroResponseDTO(e.getMessage())).build();
-        }
-
         if (e instanceof DatabaseException) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ErroResponseDTO(
                 e.getMessage() + "Causa: " + e.getCause().getMessage().replace("RM566315.", "")
@@ -24,6 +20,10 @@ public class ExceptionHandler implements ExceptionMapper<Throwable> {
 
         if (e instanceof EntityNotFoundException) {
             return Response.status(Response.Status.NOT_FOUND).entity(new ErroResponseDTO(e.getMessage())).build();
+        }
+
+        if (e instanceof IncorrectPasswordException) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ErroResponseDTO(e.getMessage())).build();
         }
 
         if (e instanceof InvalidIdFormatException) {

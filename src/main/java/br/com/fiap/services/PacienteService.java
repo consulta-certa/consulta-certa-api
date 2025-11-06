@@ -3,7 +3,7 @@ package br.com.fiap.services;
 import br.com.fiap.dao.PacienteDAO;
 import br.com.fiap.dto.*;
 import br.com.fiap.entities.Paciente;
-import br.com.fiap.exceptions.CredentialsException;
+import br.com.fiap.exceptions.IncorrectPasswordException;
 import br.com.fiap.exceptions.EntityNotFoundException;
 import br.com.fiap.exceptions.InvalidIdFormatException;
 import br.com.fiap.utils.JwtUtils;
@@ -59,18 +59,20 @@ public class PacienteService {
         Optional<Paciente> paciente = pacientes.stream().filter(paciente1 -> paciente1.getEmail().equals(request.email())).findAny();
 
         if (paciente.isEmpty()) {
-            throw new CredentialsException("email não cadastrado.");
+            throw new EntityNotFoundException();
         }
 
         boolean senhaCorreta = verifyHash(request.senha(), paciente.get().getSenha());
 
         if (!senhaCorreta) {
-            throw new CredentialsException("senha incorreta.");
+            throw new IncorrectPasswordException();
         }
 
         String token = JwtUtils.generateToken(
             paciente.get().getId().toString(),
             paciente.get().getNome(),
+            paciente.get().getEmail(),
+            paciente.get().getTelefone(),
             paciente.get().getAcompanhantes()
         );
 
