@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class LembreteDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public LembreteDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Lembrete> findAllLembrete() {
         try {
+            Connection conn = factory.getConnection();
             List<Lembrete> lembretes = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_lembretes");
             ResultSet rs = stmt.executeQuery();
@@ -34,6 +35,7 @@ public class LembreteDAO {
                 lembretes.add(lembrete);
             }
             stmt.close();
+            conn.close();
             return lembretes;
 
         } catch (SQLException e) {
@@ -43,6 +45,7 @@ public class LembreteDAO {
 
     public Lembrete findByIdLembrete(String id) {
         try {
+            Connection conn = factory.getConnection();
             Lembrete lembrete = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_lembretes WHERE id= ?");
             stmt.setString(1, id);
@@ -56,6 +59,7 @@ public class LembreteDAO {
                 lembrete.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return lembrete;
 
         } catch (SQLException e) {
@@ -65,6 +69,7 @@ public class LembreteDAO {
 
     public void insertLembrete(Lembrete lembrete) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_lembretes VALUES (?, ?, ?, ?)");
             stmt.setString(1, lembrete.getId().toString());
             stmt.setTimestamp(2, java.sql.Timestamp.valueOf(lembrete.getDataEnvio()));
@@ -72,6 +77,7 @@ public class LembreteDAO {
             stmt.setString(4, lembrete.getIdConsulta().toString());
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("registrar lembrete", e);
@@ -80,6 +86,7 @@ public class LembreteDAO {
 
     public void updateLembrete(Lembrete lembrete) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_lembretes SET dataEnvio = ?, enviado = ?, idConsulta = ? WHERE id = ?");
             stmt.setTimestamp(1, java.sql.Timestamp.valueOf(lembrete.getDataEnvio()));
             stmt.setString(2, lembrete.getIdConsulta().toString());
@@ -87,6 +94,7 @@ public class LembreteDAO {
             stmt.setString(4, lembrete.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar lembrete", e);
@@ -95,10 +103,12 @@ public class LembreteDAO {
 
     public void deleteLembrete(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_lembretes WHERE id = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover lembrete", e);

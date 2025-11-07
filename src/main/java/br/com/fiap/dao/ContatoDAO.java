@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class ContatoDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public ContatoDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Contato> findAllContato() {
         try {
+            Connection conn = factory.getConnection();
             List<Contato> contatos = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_contatos_hc");
             ResultSet rs = stmt.executeQuery();
@@ -39,6 +40,7 @@ public class ContatoDAO {
                 contatos.add(contato);
             }
             stmt.close();
+            conn.close();
             return contatos;
 
         } catch (SQLException e) {
@@ -48,6 +50,7 @@ public class ContatoDAO {
 
     public Contato findByIdContato(String id) {
         try {
+            Connection conn = factory.getConnection();
             Contato contato = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_contatos_hc WHERE id=?");
             stmt.setString(1, id);
@@ -66,6 +69,7 @@ public class ContatoDAO {
                 contato.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return contato;
 
         } catch (SQLException e) {
@@ -75,6 +79,7 @@ public class ContatoDAO {
 
     public void insertContato(Contato contato) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_contatos_hc VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, contato.getId().toString());
             stmt.setString(2, contato.getNome());
@@ -87,6 +92,7 @@ public class ContatoDAO {
             stmt.setString(9, contato.getCep());
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("registrar contato", e);
@@ -95,6 +101,7 @@ public class ContatoDAO {
 
     public void updateContato(Contato contato) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_contatos_hc SET nome = ?, telefone = ?, email = ?, numero = ?, rua = ?, bairro = ?, cidade = ?, cep = ? WHERE id_contato = ?");
             stmt.setString(1, contato.getNome());
             stmt.setString(2, contato.getTelefone());
@@ -107,6 +114,7 @@ public class ContatoDAO {
             stmt.setString(9, contato.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar contato", e);
@@ -115,10 +123,12 @@ public class ContatoDAO {
 
     public void deleteContato(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_contatos_hc WHERE id_contato = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover contato", e);

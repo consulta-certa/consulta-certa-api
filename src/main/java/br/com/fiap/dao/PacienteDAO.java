@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class PacienteDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public PacienteDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Paciente> findAllPaciente() {
         try {
+            Connection conn = factory.getConnection();
             List<Paciente> pacientes = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_pacientes");
             ResultSet rs = stmt.executeQuery();
@@ -36,6 +37,7 @@ public class PacienteDAO {
                 pacientes.add(paciente);
             }
             stmt.close();
+            conn.close();
             return pacientes;
 
         } catch (SQLException e) {
@@ -45,6 +47,7 @@ public class PacienteDAO {
 
     public Paciente findByIdPaciente(String id) {
         try {
+            Connection conn = factory.getConnection();
             Paciente paciente = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_pacientes WHERE id =?");
             stmt.setString(1, id);
@@ -60,6 +63,7 @@ public class PacienteDAO {
                 paciente.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return paciente;
 
         } catch (SQLException e) {
@@ -69,6 +73,7 @@ public class PacienteDAO {
 
     public void insertPaciente(Paciente paciente) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_pacientes VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, paciente.getId().toString());
             stmt.setString(2, paciente.getNome());
@@ -78,6 +83,7 @@ public class PacienteDAO {
             stmt.setString(6, paciente.getAcompanhantes());
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("registrar paciente", e);
@@ -86,6 +92,7 @@ public class PacienteDAO {
 
     public void updatePaciente(Paciente paciente) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_pacientes SET nome = ?, email = ?, senha=?, telefone = ?, acompanhantes = ? WHERE id = ?");
             stmt.setString(1, paciente.getNome());
             stmt.setString(2, paciente.getEmail());
@@ -95,6 +102,7 @@ public class PacienteDAO {
             stmt.setString(6, paciente.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar paciente", e);
@@ -103,10 +111,12 @@ public class PacienteDAO {
 
     public void deletePaciente(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_pacientes WHERE id=?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover paciente", e);

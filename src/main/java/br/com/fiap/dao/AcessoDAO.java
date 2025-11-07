@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class AcessoDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public AcessoDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Acesso> findAllAcessos() {
         try {
+            Connection conn = factory.getConnection();
             List<Acesso> acessos = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_acessos_funcionalidade");
             ResultSet rs = stmt.executeQuery();
@@ -36,6 +37,7 @@ public class AcessoDAO {
                 acessos.add(acesso);
             }
             stmt.close();
+            conn.close();
             return acessos;
 
         } catch (SQLException e) {
@@ -45,6 +47,7 @@ public class AcessoDAO {
 
     public Acesso findByIdAcessos(String id) {
         try {
+            Connection conn = factory.getConnection();
             Acesso acesso = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_acessos_funcionalidade WHERE id=?");
             stmt.setString(1, id);
@@ -60,6 +63,7 @@ public class AcessoDAO {
                 acesso.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return acesso;
 
         } catch (SQLException e) {
@@ -69,6 +73,7 @@ public class AcessoDAO {
 
     public void insertAcessos(Acesso acesso) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_acessos_funcionalidade VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, acesso.getId().toString());
             stmt.setString(2, acesso.getFuncionalidade());
@@ -82,6 +87,7 @@ public class AcessoDAO {
             }
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("registrar acesso", e);
@@ -90,6 +96,7 @@ public class AcessoDAO {
 
     public void updateAcessos(Acesso acesso) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acessos_funcionalidade SET funcionalidade = ?, quantidade_acessos = ?, tempo_permanencia_seg = ?, data_acesso = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, acesso.getFuncionalidade());
             stmt.setInt(2, acesso.getQuantidadeAcessos());
@@ -99,6 +106,7 @@ public class AcessoDAO {
             stmt.setString(6, acesso.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar acesso", e);
@@ -108,10 +116,12 @@ public class AcessoDAO {
 
     public void deleteAcessos(UUID id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_acessos_funcionalidade WHERE id = ?");
             stmt.setString(1, id.toString());
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover acesso", e);

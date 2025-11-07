@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class ConsultaDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public ConsultaDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Consulta> findAllConsulta() {
         try {
+            Connection conn = factory.getConnection();
             List<Consulta> consultas = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_consultas");
             ResultSet rs = stmt.executeQuery();
@@ -35,6 +36,7 @@ public class ConsultaDAO {
                 consultas.add(consulta);
             }
             stmt.close();
+            conn.close();
             return consultas;
 
         } catch (SQLException e) {
@@ -44,6 +46,7 @@ public class ConsultaDAO {
 
     public Consulta findByIdConsulta(String id) {
         try {
+            Connection conn = factory.getConnection();
             Consulta consulta = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_consultas WHERE id=?");
             stmt.setString(1, id);
@@ -58,6 +61,7 @@ public class ConsultaDAO {
                 consulta.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return consulta;
 
         } catch (SQLException e) {
@@ -67,6 +71,7 @@ public class ConsultaDAO {
 
     public void insertConsulta(Consulta consulta) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_consultas VALUES (?, ?, ?, ?, ?)");
             stmt.setString(1, consulta.getId().toString());
             stmt.setString(2, consulta.getEspecialidade());
@@ -75,6 +80,7 @@ public class ConsultaDAO {
             stmt.setString(5, consulta.getIdPaciente().toString());
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("registrar consulta", e);
@@ -83,6 +89,7 @@ public class ConsultaDAO {
 
     public void updateConsulta(Consulta consulta) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = ?, ativa = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, consulta.getEspecialidade());
             stmt.setTimestamp(2, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
@@ -91,6 +98,7 @@ public class ConsultaDAO {
             stmt.setString(5, consulta.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar consulta", e);
@@ -99,10 +107,12 @@ public class ConsultaDAO {
 
     public void deleteConsulta(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_consultas WHERE id = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover consulta", e);

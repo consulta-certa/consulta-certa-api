@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class ConteudoDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public ConteudoDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Conteudo> findAllConteudo() {
         try {
+            Connection conn = factory.getConnection();
             List<Conteudo> conteudos = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_conteudos");
             ResultSet rs = stmt.executeQuery();
@@ -36,6 +37,7 @@ public class ConteudoDAO {
                 conteudos.add(conteudo);
             }
             stmt.close();
+            conn.close();
             return conteudos;
 
         } catch (SQLException e) {
@@ -45,6 +47,7 @@ public class ConteudoDAO {
 
     public Conteudo findByIdConteudo(String id) {
         try {
+            Connection conn = factory.getConnection();
             Conteudo conteudo = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_conteudos WHERE id=?");
             stmt.setString(1, id);
@@ -61,6 +64,7 @@ public class ConteudoDAO {
                 conteudo.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return conteudo;
 
         } catch (SQLException e) {
@@ -70,6 +74,7 @@ public class ConteudoDAO {
 
     public void insertConteudo(Conteudo conteudo) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_conteudos VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, conteudo.getId().toString());
             stmt.setString(2, conteudo.getTipo());
@@ -80,6 +85,7 @@ public class ConteudoDAO {
             stmt.setTimestamp(7, java.sql.Timestamp.valueOf(conteudo.getDataPublicacao()));
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("inserir conteúdo", e);
@@ -88,6 +94,7 @@ public class ConteudoDAO {
 
     public void updateConteudo(Conteudo conteudo) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_conteudos SET tipo = ?, titulo = ?, texto = ?, video = ?, imagem = ?, dataPublicacao = ? WHERE id = ?");
             stmt.setString(1, conteudo.getTipo());
             stmt.setString(2, conteudo.getTitulo());
@@ -98,6 +105,7 @@ public class ConteudoDAO {
             stmt.setString(7, conteudo.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar conteúdo", e);
@@ -106,10 +114,12 @@ public class ConteudoDAO {
 
     public void deleteConteudo(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_conteudos WHERE id = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover conteúdo", e);

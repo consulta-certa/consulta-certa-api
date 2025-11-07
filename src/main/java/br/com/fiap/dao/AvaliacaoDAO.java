@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class AvaliacaoDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public AvaliacaoDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Avaliacao> findAllAvaliacao() {
         try {
+            Connection conn = factory.getConnection();
             List<Avaliacao> avaliacoes = new ArrayList<>();
 
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_avaliacoes");
@@ -36,6 +37,7 @@ public class AvaliacaoDAO {
                 avaliacoes.add(avaliacao);
             }
             stmt.close();
+            conn.close();
             return avaliacoes;
 
         } catch (SQLException e) {
@@ -45,6 +47,7 @@ public class AvaliacaoDAO {
 
     public Avaliacao findByIdAvaliacao(String id) {
         try {
+            Connection conn = factory.getConnection();
             Avaliacao avaliacao = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_avaliacoes WHERE id=?");
             stmt.setString(1, id);
@@ -58,6 +61,7 @@ public class AvaliacaoDAO {
                 avaliacao.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return avaliacao;
 
         } catch (SQLException e) {
@@ -67,6 +71,7 @@ public class AvaliacaoDAO {
 
     public void insertAvaliacao(Avaliacao avaliacao) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_avaliacoes VALUES (?, ?, ?, ? )");
             stmt.setString(1, avaliacao.getId().toString());
             stmt.setInt(2, avaliacao.getNota());
@@ -74,6 +79,7 @@ public class AvaliacaoDAO {
             stmt.setTimestamp(4, java.sql.Timestamp.valueOf(avaliacao.getDataAvaliacao()));
             stmt.execute();
             stmt.close();
+            conn.close();
         } catch (SQLException e) {
             throw new DatabaseException("registrar avaliação", e);
         }
@@ -81,6 +87,7 @@ public class AvaliacaoDAO {
 
     public void updateAvaliacao(Avaliacao avaliacao) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_avaliacoes SET nota = ?, comentario = ?, data_avaliacao = ? WHERE id = ?");
             stmt.setInt(1, avaliacao.getNota());
             stmt.setString(2, avaliacao.getComentario());
@@ -88,6 +95,7 @@ public class AvaliacaoDAO {
             stmt.setString(4, avaliacao.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar avaliação", e);
@@ -96,10 +104,12 @@ public class AvaliacaoDAO {
 
     public void deleteAvaliacao(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_avaliacoes WHERE id= ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover avaliação", e);

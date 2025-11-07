@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class InteracaoDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public InteracaoDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<InteracaoChatbot> findAllInteracao() {
         try {
+            Connection conn = factory.getConnection();
             List<InteracaoChatbot> interacoes = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_interacoes_chatbot");
             ResultSet rs = stmt.executeQuery();
@@ -34,6 +35,7 @@ public class InteracaoDAO {
                 interacoes.add(interacao);
             }
             stmt.close();
+            conn.close();
             return interacoes;
 
         } catch (SQLException e) {
@@ -43,6 +45,7 @@ public class InteracaoDAO {
 
     public InteracaoChatbot findByIdInteracao(String id) {
         try {
+            Connection conn = factory.getConnection();
             InteracaoChatbot interacao = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_interacoes_chatbot WHERE id = ?");
             stmt.setString(1, id);
@@ -56,6 +59,7 @@ public class InteracaoDAO {
                 interacao.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return interacao;
 
         } catch (SQLException e) {
@@ -65,6 +69,7 @@ public class InteracaoDAO {
 
     public void insertInteracao(InteracaoChatbot interacao) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_interacoes_chatbot VALUES (?, ?, ?, ?)");
             stmt.setString(1, interacao.getId().toString());
             stmt.setInt(2, interacao.getIdConversa());
@@ -72,6 +77,7 @@ public class InteracaoDAO {
             stmt.setTimestamp(4, java.sql.Timestamp.valueOf(interacao.getDataPergunta()));
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("registrar interação", e);
@@ -80,6 +86,7 @@ public class InteracaoDAO {
 
     public void updateInteracao(InteracaoChatbot interacao) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_interacoes_chatbot SET id_conversa = ?, pergunta = ?, data_pergunta = ? WHERE id = ?");
             stmt.setInt(1, interacao.getIdConversa());
             stmt.setString(2, interacao.getPergunta());
@@ -87,6 +94,7 @@ public class InteracaoDAO {
             stmt.setString(4, interacao.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar interação", e);
@@ -95,10 +103,12 @@ public class InteracaoDAO {
 
     public void deleteInteracao(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_interacoes_chatbot WHERE id = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover interação", e);

@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class AcompanhanteDAO {
-    private final Connection conn;
+    private final ConnectionFactory factory;
 
     public AcompanhanteDAO() {
-        this.conn =  new ConnectionFactory().getConnection();
+        this.factory =  new ConnectionFactory();
     }
 
     public List<Acompanhante> findAllAcompanhante() {
         try {
+            Connection conn = factory.getConnection();
             List<Acompanhante> acompanhantes = new ArrayList<>();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_acompanhantes");
             ResultSet rs = stmt.executeQuery();
@@ -36,6 +37,7 @@ public class AcompanhanteDAO {
                 acompanhantes.add(acompanhante);
             }
             stmt.close();
+            conn.close();
             return acompanhantes;
 
         } catch (SQLException e) {
@@ -45,6 +47,7 @@ public class AcompanhanteDAO {
 
     public Acompanhante findByIdAcompanhante(String id) {
         try {
+            Connection conn = factory.getConnection();
             Acompanhante acompanhante = null;
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cc_acompanhantes WHERE id=?");
             stmt.setString(1, id);
@@ -60,6 +63,7 @@ public class AcompanhanteDAO {
                 acompanhante.setId(UUID.fromString(rs.getString(1)));
             }
             stmt.close();
+            conn.close();
             return acompanhante;
 
         } catch (SQLException e) {
@@ -69,6 +73,7 @@ public class AcompanhanteDAO {
 
     public void insertAcompanhante(Acompanhante acompanhante) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_acompanhantes VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, acompanhante.getId().toString());
             stmt.setString(2, acompanhante.getNome());
@@ -78,6 +83,7 @@ public class AcompanhanteDAO {
             stmt.setString(6, acompanhante.getIdPaciente().toString());
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("registrar acompanhante", e);
@@ -86,6 +92,7 @@ public class AcompanhanteDAO {
 
     public void updateAcompanhante(Acompanhante acompanhante) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acompanhantes SET nome = ?, email = ?, telefone = ?, parentesco = ?, id_paciente = ? WHERE id = ?");
             stmt.setString(1, acompanhante.getNome());
             stmt.setString(2, acompanhante.getEmail());
@@ -95,6 +102,7 @@ public class AcompanhanteDAO {
             stmt.setString(6, acompanhante.getId().toString());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("atualizar acompanhante", e);
@@ -103,10 +111,12 @@ public class AcompanhanteDAO {
 
     public void deleteAcompanhante(String id) {
         try {
+            Connection conn = factory.getConnection();
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM cc_acompanhantes WHERE id = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
+            conn.close();
 
         } catch (SQLException e) {
             throw new DatabaseException("remover acompanhante", e);
