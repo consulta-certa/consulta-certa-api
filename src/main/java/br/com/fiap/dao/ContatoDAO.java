@@ -80,7 +80,7 @@ public class ContatoDAO {
     public void insertContato(Contato contato) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_contatos_hc VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_contatos_hc (id, nome, telefone, email, numero, rua, bairro, cidade, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, contato.getId().toString());
             stmt.setString(2, contato.getNome());
             stmt.setString(3, contato.getTelefone());
@@ -102,7 +102,7 @@ public class ContatoDAO {
     public void updateContato(Contato contato) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_contatos_hc SET nome = ?, telefone = ?, email = ?, numero = ?, rua = ?, bairro = ?, cidade = ?, cep = ? WHERE id_contato = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_contatos_hc SET nome = ?, telefone = ?, email = ?, numero = ?, rua = ?, bairro = ?, cidade = ?, cep = ? WHERE id = ?");
             stmt.setString(1, contato.getNome());
             stmt.setString(2, contato.getTelefone());
             stmt.setString(3, contato.getEmail());

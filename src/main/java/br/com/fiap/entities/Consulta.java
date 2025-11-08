@@ -9,16 +9,18 @@ public class Consulta {
     private LocalDateTime dataConsulta;
     private String ativa;
     private UUID idPaciente;
+    private LocalDateTime dataAgendamento;
 
     public Consulta() {
     }
 
-    public Consulta(String especialidade, LocalDateTime dataConsulta, String ativa, UUID idPaciente) {
+    public Consulta(String especialidade, LocalDateTime dataConsulta, String ativa, UUID idPaciente, LocalDateTime dataAgendamento) {
         this.id = UUID.randomUUID();
         this.especialidade = especialidade;
         this.dataConsulta = dataConsulta;
         this.ativa = ativa;
         this.idPaciente = idPaciente;
+        this.dataAgendamento = dataAgendamento;
     }
 
     public UUID getId() {
@@ -59,5 +61,13 @@ public class Consulta {
 
     public void setIdPaciente(UUID idPaciente) {
         this.idPaciente = idPaciente;
+    }
+
+    public LocalDateTime getDataAgendamento() {
+        return dataAgendamento;
+    }
+
+    public void setDataAgendamento(LocalDateTime dataAgendamento) {
+        this.dataAgendamento = dataAgendamento;
     }
 }

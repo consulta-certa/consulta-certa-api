@@ -22,13 +22,15 @@ public class JwtUtils {
         String nome,
         String email,
         String telefone,
-        String acompanhantes
+        String acompanhantes,
+        String dadosSaude
     ) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("nome", nome);
         claims.put("email", email);
         claims.put("telefone", telefone);
         claims.put("acompanhantes", acompanhantes);
+        claims.put("dadosSaude", dadosSaude);
 
         JwtClaimsBuilder builder = Jwt.claims(claims)
                 .subject(id)

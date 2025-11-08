@@ -74,7 +74,7 @@ public class AcessoDAO {
     public void insertAcessos(Acesso acesso) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_acessos_funcionalidade VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_acessos_funcionalidade (id, funcionalidade, quantidade_acessos, tempo_permanencia_seg, data_acesso, id_paciente) VALUES (?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), ?)");
             stmt.setString(1, acesso.getId().toString());
             stmt.setString(2, acesso.getFuncionalidade());
             stmt.setInt(3, acesso.getQuantidadeAcessos());
@@ -97,7 +97,7 @@ public class AcessoDAO {
     public void updateAcessos(Acesso acesso) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acessos_funcionalidade SET funcionalidade = ?, quantidade_acessos = ?, tempo_permanencia_seg = ?, data_acesso = ?, id_paciente = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_acessos_funcionalidade SET funcionalidade = ?, quantidade_acessos = ?, tempo_permanencia_seg = ?, data_acesso = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), id_paciente = ? WHERE id = ?");
             stmt.setString(1, acesso.getFuncionalidade());
             stmt.setInt(2, acesso.getQuantidadeAcessos());
             stmt.setInt(3, acesso.getTempoPermanenciaSeg());

@@ -74,7 +74,7 @@ public class AcompanhanteDAO {
     public void insertAcompanhante(Acompanhante acompanhante) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_acompanhantes VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_acompanhantes (id, nome, email, telefone, parentesco, id_paciente) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, acompanhante.getId().toString());
             stmt.setString(2, acompanhante.getNome());
             stmt.setString(3, acompanhante.getEmail());

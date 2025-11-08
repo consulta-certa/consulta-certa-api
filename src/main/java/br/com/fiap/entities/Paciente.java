@@ -9,6 +9,7 @@ public class Paciente {
     private String senha;
     private String telefone;
     private String acompanhantes;
+    private String dadosSaude;
 
     public Paciente() {
     }
@@ -20,6 +21,7 @@ public class Paciente {
         this.senha = senha;
         this.telefone = telefone;
         this.acompanhantes = acompanhantes;
+        this.dadosSaude = "n";
     }
 
     public UUID getId() {
@@ -68,5 +70,13 @@ public class Paciente {
 
     public void setAcompanhantes(String acompanhantes) {
         this.acompanhantes = acompanhantes;
+    }
+
+    public String getDadosSaude() {
+        return dadosSaude;
+    }
+
+    public void setDadosSaude(String dadosSaude) {
+        this.dadosSaude = dadosSaude;
     }
 }

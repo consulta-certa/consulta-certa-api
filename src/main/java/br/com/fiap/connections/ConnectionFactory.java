@@ -17,6 +17,7 @@ public class ConnectionFactory {
                 "RM566315",
                 "050304"
             );
+
         } catch (ClassNotFoundException e) {
             throw new DatabaseException("não foi possível encontrar o driver JDBC");
 

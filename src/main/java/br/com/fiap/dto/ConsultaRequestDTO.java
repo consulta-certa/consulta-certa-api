@@ -6,5 +6,6 @@ public record ConsultaRequestDTO(
     String especialidade,
     LocalDateTime dataConsulta,
     String ativa,
-    String idPaciente
+    String idPaciente,
+    LocalDateTime dataAgendamento
 ) {}

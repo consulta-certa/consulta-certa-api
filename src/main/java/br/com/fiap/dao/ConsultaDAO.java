@@ -30,7 +30,9 @@ public class ConsultaDAO {
                     rs.getString(2),
                     rs.getTimestamp(3).toLocalDateTime(),
                     rs.getString(4),
-                    UUID.fromString(rs.getString(5))
+                    UUID.fromString(rs.getString(5)),
+                    rs.getTimestamp(6).toLocalDateTime()
+
                 );
                 consulta.setId(UUID.fromString(rs.getString(1)));
                 consultas.add(consulta);
@@ -56,7 +58,8 @@ public class ConsultaDAO {
                     rs.getString(2),
                     rs.getTimestamp(3).toLocalDateTime(),
                     rs.getString(4),
-                    UUID.fromString(rs.getString(5))
+                    UUID.fromString(rs.getString(5)),
+                    rs.getTimestamp(6).toLocalDateTime()
                 );
                 consulta.setId(UUID.fromString(rs.getString(1)));
             }
@@ -72,12 +75,13 @@ public class ConsultaDAO {
     public void insertConsulta(Consulta consulta) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_consultas VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_consultas (id, data_consulta, especialidade, ativa, id_paciente, data_agendamento) VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), ?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'))");
             stmt.setString(1, consulta.getId().toString());
             stmt.setString(2, consulta.getEspecialidade());
             stmt.setTimestamp(3, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
             stmt.setString(4, consulta.getAtiva());
             stmt.setString(5, consulta.getIdPaciente().toString());
+            stmt.setTimestamp(6, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
             stmt.execute();
             stmt.close();
             conn.close();
@@ -90,7 +94,7 @@ public class ConsultaDAO {
     public void updateConsulta(Consulta consulta) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = ?, ativa = ?, id_paciente = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), ativa = ?, id_paciente = ?, data_agendamento = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS') WHERE id = ?");
             stmt.setString(1, consulta.getEspecialidade());
             stmt.setTimestamp(2, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
             stmt.setString(3, consulta.getAtiva());

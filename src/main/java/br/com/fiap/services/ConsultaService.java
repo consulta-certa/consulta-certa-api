@@ -50,7 +50,8 @@ public class ConsultaService {
             request.especialidade(),
             request.dataConsulta(),
             request.ativa(),
-            UUID.fromString(request.idPaciente())
+            UUID.fromString(request.idPaciente()),
+            request.dataAgendamento()
         );
         dao.insertConsulta(consulta);
 
@@ -75,7 +76,8 @@ public class ConsultaService {
                 request.especialidade(),
                 request.dataConsulta(),
                 request.ativa(),
-                UUID.fromString(request.idPaciente())
+                UUID.fromString(request.idPaciente()),
+                request.dataAgendamento()
         );
         consulta.setId(UUID.fromString(id));
         dao.updateConsulta(consulta);
@@ -97,11 +99,12 @@ public class ConsultaService {
 
     private ConsultaResponseDTO toResponse(Consulta consulta) {
         return new ConsultaResponseDTO(
-                consulta.getId().toString(),
-                consulta.getEspecialidade(),
-                consulta.getDataConsulta(),
-                consulta.getAtiva(),
-                consulta.getIdPaciente().toString()
+            consulta.getId().toString(),
+            consulta.getEspecialidade(),
+            consulta.getDataConsulta(),
+            consulta.getAtiva(),
+            consulta.getIdPaciente().toString(),
+            consulta.getDataAgendamento()
         );
     }
 }

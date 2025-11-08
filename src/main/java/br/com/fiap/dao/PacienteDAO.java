@@ -34,6 +34,7 @@ public class PacienteDAO {
                     rs.getString(6)
                 );
                 paciente.setId(UUID.fromString(rs.getString(1)));
+                paciente.setDadosSaude(rs.getString(7));
                 pacientes.add(paciente);
             }
             stmt.close();
@@ -61,6 +62,7 @@ public class PacienteDAO {
                     rs.getString(6)
                 );
                 paciente.setId(UUID.fromString(rs.getString(1)));
+                paciente.setDadosSaude(rs.getString(7));
             }
             stmt.close();
             conn.close();
@@ -74,13 +76,14 @@ public class PacienteDAO {
     public void insertPaciente(Paciente paciente) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_pacientes VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_pacientes (id, nome, email, telefone, acompanhantes, dados_saude) VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, paciente.getId().toString());
             stmt.setString(2, paciente.getNome());
             stmt.setString(3, paciente.getEmail());
             stmt.setString(4, paciente.getSenha());
             stmt.setString(5, paciente.getTelefone());
             stmt.setString(6, paciente.getAcompanhantes());
+            stmt.setString(7, "n");
             stmt.execute();
             stmt.close();
             conn.close();
@@ -93,12 +96,12 @@ public class PacienteDAO {
     public void updatePaciente(Paciente paciente) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_pacientes SET nome = ?, email = ?, senha=?, telefone = ?, acompanhantes = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_pacientes SET nome = ?, email = ?, telefone = ?, acompanhantes = ?, dados_saude = ? WHERE id = ?");
             stmt.setString(1, paciente.getNome());
             stmt.setString(2, paciente.getEmail());
-            stmt.setString(3, paciente.getSenha());
-            stmt.setString(4, paciente.getTelefone());
-            stmt.setString(5, paciente.getAcompanhantes());
+            stmt.setString(3, paciente.getTelefone());
+            stmt.setString(4, paciente.getAcompanhantes());
+            stmt.setString(5, paciente.getDadosSaude());
             stmt.setString(6, paciente.getId().toString());
             stmt.executeUpdate();
             stmt.close();

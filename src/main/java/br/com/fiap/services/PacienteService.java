@@ -73,7 +73,8 @@ public class PacienteService {
             paciente.get().getNome(),
             paciente.get().getEmail(),
             paciente.get().getTelefone(),
-            paciente.get().getAcompanhantes()
+            paciente.get().getAcompanhantes(),
+            paciente.get().getDadosSaude()
         );
 
         return new TokenResponseDTO(token);
@@ -94,6 +95,7 @@ public class PacienteService {
                     request.acompanhantes()
             );
             paciente.setId(UUID.fromString(id));
+            paciente.setDadosSaude(request.dadosSaude());
             dao.updatePaciente(paciente);
 
             return toResponse(paciente);
@@ -121,7 +123,8 @@ public class PacienteService {
             paciente.getNome(),
             paciente.getEmail(),
             paciente.getTelefone(),
-            paciente.getAcompanhantes()
+            paciente.getAcompanhantes(),
+            paciente.getDadosSaude()
         );
     }
 }
