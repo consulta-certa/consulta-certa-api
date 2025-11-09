@@ -17,26 +17,6 @@ public class DadosSaudeService {
         this.dao = new DadosSaudeDAO();
     }
 
-    public List<DadosSaudeResponseDTO> findAll() {
-        return dao.findAllDadosSaude().stream().map(this::toResponse).toList();
-    }
-
-    public DadosSaudeResponseDTO findById(String id) {
-        // Regra de negócio: campos id precisam seguir o padrão estabelecido.
-        try {
-            UUID uuid = UUID.fromString(id);
-            DadosSaude dadosSaude = dao.findByIdDadosSaude(uuid.toString());
-
-            if (dadosSaude == null) {
-                throw new EntityNotFoundException("dados de saude");
-            }
-            return toResponse(dadosSaude);
-
-        } catch (IllegalArgumentException e) {
-            throw new InvalidIdFormatException();
-        }
-    }
-
     public DadosSaudeResponseDTO insert(DadosSaudeRequestDTO request) {
         // Regra de negócio: campos id precisam seguir o padrão estabelecido.
         try {
@@ -64,7 +44,10 @@ public class DadosSaudeService {
 
     public void delete(String id) {
         try {
-            if (findById(id) == null) {
+            UUID uuid = UUID.fromString(id);
+            DadosSaude dadosSaude = dao.findByIdDadosSaude(uuid.toString());
+
+            if (dadosSaude == null) {
                 throw new EntityNotFoundException("dados de saude");
             }
 

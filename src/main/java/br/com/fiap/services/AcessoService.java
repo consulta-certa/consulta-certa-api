@@ -17,21 +17,21 @@ public class AcessoService {
 
     public AcessoResponseDTO insert(AcessoRequestDTO request) {
         // Regra de negócio: campos id precisam seguir o padrão estabelecido.
+        UUID uuidForeign = null;
         try {
             if (request.idPaciente() != null) {
-                UUID uuidForeign = UUID.fromString(request.idPaciente());
+                uuidForeign = UUID.fromString(request.idPaciente());
             }
         } catch (IllegalArgumentException e) {
             throw new InvalidIdFormatException();
         }
 
-        assert request.idPaciente() != null;
         Acesso acesso = new Acesso(
             request.funcionalidade(),
             request.quantidadeAcessos(),
             request.tempoPermanenciaSeg(),
             request.dataAcesso(),
-            UUID.fromString(request.idPaciente())
+            uuidForeign
         );
         dao.insertAcessos(acesso);
 

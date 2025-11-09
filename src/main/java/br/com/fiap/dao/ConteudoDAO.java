@@ -75,7 +75,7 @@ public class ConteudoDAO {
     public void insertConteudo(Conteudo conteudo) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_conteudos (id, tipo, titulo, texto, video, imagem, data_publicacao) VALUES (?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'))");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_conteudos (id, tipo, titulo, texto, video, imagem, data_publicacao) VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, conteudo.getId().toString());
             stmt.setString(2, conteudo.getTipo());
             stmt.setString(3, conteudo.getTitulo());
@@ -95,7 +95,7 @@ public class ConteudoDAO {
     public void updateConteudo(Conteudo conteudo) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_conteudos SET tipo = ?, titulo = ?, texto = ?, video = ?, imagem = ?, data_publicacao = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS') WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_conteudos SET tipo = ?, titulo = ?, texto = ?, video = ?, imagem = ?, data_publicacao = ? WHERE id = ?");
             stmt.setString(1, conteudo.getTipo());
             stmt.setString(2, conteudo.getTitulo());
             stmt.setString(3, conteudo.getTexto());

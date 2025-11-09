@@ -17,17 +17,6 @@ public class DadosSaudeResource {
         this.service = new DadosSaudeService();
     }
 
-    @GET
-    public Response findAll () {
-        return Response.ok(service.findAll()).build();
-    }
-
-    @GET
-    @Path("/{id}")
-    public Response findById (@PathParam("id") String id) {
-        return Response.ok(service.findById(id)).build();
-    }
-
     @POST
     @Transactional
     public Response insert(DadosSaudeRequestDTO request, @Context UriInfo uriInfo) {

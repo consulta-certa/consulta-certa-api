@@ -70,7 +70,7 @@ public class InteracaoDAO {
     public void insertInteracao(InteracaoChatbot interacao) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_interacoes_chatbot (id, id_conversa, pergunta, data_pergunta) VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'))");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_interacoes_chatbot (id, id_conversa, pergunta, data_pergunta) VALUES (?, ?, ?, ?)");
             stmt.setString(1, interacao.getId().toString());
             stmt.setInt(2, interacao.getIdConversa());
             stmt.setString(3, interacao.getPergunta());
@@ -87,7 +87,7 @@ public class InteracaoDAO {
     public void updateInteracao(InteracaoChatbot interacao) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_interacoes_chatbot SET id_conversa = ?, pergunta = ?, data_pergunta = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS') WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_interacoes_chatbot SET id_conversa = ?, pergunta = ?, data_pergunta = ? WHERE id = ?");
             stmt.setInt(1, interacao.getIdConversa());
             stmt.setString(2, interacao.getPergunta());
             stmt.setTimestamp(3, java.sql.Timestamp.valueOf(interacao.getDataPergunta()));

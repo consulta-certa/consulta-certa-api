@@ -70,7 +70,7 @@ public class LembreteDAO {
     public void insertLembrete(Lembrete lembrete) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_lembretes (id, data_envio, enviado, d_consulta) VALUES (?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_lembretes (id, data_envio, enviado, d_consulta) VALUES (?, ?, ?, ?)");
             stmt.setString(1, lembrete.getId().toString());
             stmt.setTimestamp(2, java.sql.Timestamp.valueOf(lembrete.getDataEnvio()));
             stmt.setString(3, lembrete.getEnviado());
@@ -87,7 +87,7 @@ public class LembreteDAO {
     public void updateLembrete(Lembrete lembrete) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_lembretes SET data_envio = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), enviado = ?, id_consulta = ? WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_lembretes SET data_envio = ?, enviado = ?, id_consulta = ? WHERE id = ?");
             stmt.setTimestamp(1, java.sql.Timestamp.valueOf(lembrete.getDataEnvio()));
             stmt.setString(2, lembrete.getIdConsulta().toString());
             stmt.setString(3, lembrete.getEnviado());

@@ -82,7 +82,7 @@ public class DadosSaudeDAO {
     public void insertDadosSaude(DadosSaude dadosSaude) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_dados_saude_paciente (id, id_paciente, idade, sexo, tem_hipertensao, tem_diabetes, consome_alcool, possui_deficiencia, tipo_deficiencia, data_preenchimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_dados_saude_paciente (id, id_paciente, idade, sexo, tem_hipertensao, tem_diabetes, consome_alcool, possui_deficiencia, tipo_deficiencia, data_preenchimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, dadosSaude.getId().toString());
             stmt.setString(2, dadosSaude.getIdPaciente().toString());
             stmt.setInt(3, dadosSaude.getIdade());
@@ -109,7 +109,7 @@ public class DadosSaudeDAO {
     public void updateDadosSaude(DadosSaude dadosSaude) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_dados_saude_paciente SET id_paciente = ? idade = ?, sexo = ?, tem_hipertensao = ?, tem_diabetes = ?, consome_alcool = ?, possui_deficiencia = ?, tipo_deficiencia = ?, data_preenchimento = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), id_paciente WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_dados_saude_paciente SET id_paciente = ? idade = ?, sexo = ?, tem_hipertensao = ?, tem_diabetes = ?, consome_alcool = ?, possui_deficiencia = ?, tipo_deficiencia = ?, data_preenchimento = ?, id_paciente WHERE id = ?");
             stmt.setInt(1, dadosSaude.getIdade());
             stmt.setString(2, dadosSaude.getSexo());
             stmt.setString(3, dadosSaude.getTemHipertensao());

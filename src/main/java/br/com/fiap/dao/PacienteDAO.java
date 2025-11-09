@@ -76,7 +76,7 @@ public class PacienteDAO {
     public void insertPaciente(Paciente paciente) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_pacientes (id, nome, email, telefone, acompanhantes, dados_saude) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_pacientes (id, nome, email, senha, telefone, acompanhantes, dados_saude) VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, paciente.getId().toString());
             stmt.setString(2, paciente.getNome());
             stmt.setString(3, paciente.getEmail());

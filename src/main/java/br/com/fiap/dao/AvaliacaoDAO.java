@@ -72,7 +72,7 @@ public class AvaliacaoDAO {
     public void insertAvaliacao(Avaliacao avaliacao) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_avaliacoes (id, nota, comentario, data_avaliacao) VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS') )");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_avaliacoes (id, nota, comentario, data_avaliacao) VALUES (?, ?, ?, ? )");
             stmt.setString(1, avaliacao.getId().toString());
             stmt.setInt(2, avaliacao.getNota());
             stmt.setString(3, avaliacao.getComentario());
@@ -88,7 +88,7 @@ public class AvaliacaoDAO {
     public void updateAvaliacao(Avaliacao avaliacao) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_avaliacoes SET nota = ?, comentario = ?, data_avaliacao = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS') WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_avaliacoes SET nota = ?, comentario = ?, data_avaliacao = ? WHERE id = ?");
             stmt.setInt(1, avaliacao.getNota());
             stmt.setString(2, avaliacao.getComentario());
             stmt.setTimestamp(3, java.sql.Timestamp.valueOf(avaliacao.getDataAvaliacao()));

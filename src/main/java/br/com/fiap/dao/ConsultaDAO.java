@@ -75,13 +75,13 @@ public class ConsultaDAO {
     public void insertConsulta(Consulta consulta) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_consultas (id, data_consulta, especialidade, ativa, id_paciente, data_agendamento) VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), ?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'))");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cc_consultas (id, especialidade, data_consulta, ativa, id_paciente, data_agendamento) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, consulta.getId().toString());
             stmt.setString(2, consulta.getEspecialidade());
             stmt.setTimestamp(3, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
             stmt.setString(4, consulta.getAtiva());
             stmt.setString(5, consulta.getIdPaciente().toString());
-            stmt.setTimestamp(6, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
+            stmt.setTimestamp(6, java.sql.Timestamp.valueOf(consulta.getDataAgendamento()));
             stmt.execute();
             stmt.close();
             conn.close();
@@ -94,12 +94,13 @@ public class ConsultaDAO {
     public void updateConsulta(Consulta consulta) {
         try {
             Connection conn = factory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS'), ativa = ?, id_paciente = ?, data_agendamento = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS') WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE cc_consultas SET especialidade = ?, data_consulta = ?, ativa = ?, id_paciente = ?, data_agendamento = ? WHERE id = ?");
             stmt.setString(1, consulta.getEspecialidade());
             stmt.setTimestamp(2, java.sql.Timestamp.valueOf(consulta.getDataConsulta()));
             stmt.setString(3, consulta.getAtiva());
             stmt.setString(4, consulta.getIdPaciente().toString());
-            stmt.setString(5, consulta.getId().toString());
+            stmt.setTimestamp(5, java.sql.Timestamp.valueOf(consulta.getDataAgendamento()));
+            stmt.setString(6, consulta.getId().toString());
             stmt.executeUpdate();
             stmt.close();
             conn.close();
